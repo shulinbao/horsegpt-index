@@ -606,6 +606,14 @@
                 }
             }
         }
+                document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // 阻止表单默认的提交行为
+
+            var inputVal = document.getElementById('searchInput').value;
+            var targetUrl = 'https://chat.nu.ac.cn/#/chat?submit=' + encodeURIComponent(inputVal);  // 构建目标 URL
+
+            window.location.href = targetUrl;  // 跳转到构建的 URL
+        });
     </script>
 </body>
 </html>
