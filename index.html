@@ -65,11 +65,11 @@
         .title .gradient-text {
             background: linear-gradient(
                 135deg,
-                rgb(214, 158, 73) 0%,
-                rgb(224, 168, 83) 30%,
-                rgb(234, 178, 93) 50%,
-                rgb(244, 188, 103) 70%,
-                rgb(255, 243, 212) 100%
+                rgb(0, 123, 255) 0%,
+                rgb(0, 113, 245) 30%,
+                rgb(0, 103, 235) 50%,
+                rgb(0, 93, 225) 70%,
+                rgb(230, 247, 255) 100%
             );
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -83,7 +83,7 @@
         }
 
         .title .gradient-text::after {
-            content: 'BoB';
+            content: 'HorseGPT';
             position: absolute;
             left: 0;
             top: 0;
@@ -195,7 +195,7 @@
         }
 
         .search-button:hover {
-            background: linear-gradient(135deg, rgb(224, 168, 83) 0%, rgb(214, 158, 73) 100%);
+            background: linear-gradient(135deg, rgb(0, 113, 245) 0%, rgb(0, 123, 255) 100%);
             transform: translateY(-50%) scale(1.02);
         }
         .examples {
@@ -212,31 +212,31 @@
             border-radius: 16px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(214, 158, 73, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.1);
             cursor: pointer;
         }
 
         .example-card:hover {
             transform: translateY(-5px);
             background: var(--card-hover);
-            box-shadow: 0 10px 20px rgba(214, 158, 73, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
         }
 
         .example-icon {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            color: rgb(214, 158, 73);
+            color: rgb(0, 123, 255);
         }
 
         .example-title {
             font-weight: 600;
-            color: rgb(214, 158, 73);
+            color: rgb(0, 123, 255);
             margin-bottom: 0.5rem;
         }
 
         .example-desc {
             font-size: 0.9rem;
-            color: rgba(214, 158, 73, 0.8);
+            color: rgba(0, 123, 255, 0.8);
         }
 
         @keyframes float {
@@ -262,7 +262,7 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgb(214, 158, 73);
+            background: rgb(0, 123, 255);
             top: 50%;
             transform: translateY(-50%);
             animation: pulse 2s infinite;
@@ -352,7 +352,7 @@
         }
 
         .footer-link {
-            color: rgb(214, 158, 73);
+            color: rgb(0, 123, 255);
             text-decoration: none;
             font-size: 0.95rem;
             padding: 0.5rem 1rem;
@@ -369,14 +369,14 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: rgb(214, 158, 73);
+            background: rgb(0, 123, 255);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
 
         .footer-link:hover {
             opacity: 1;
-            background: rgba(255, 243, 212, 0.4);
+            background: rgba(230, 247, 255, 0.4);
         }
 
         .footer-link:hover::after {
@@ -384,7 +384,7 @@
         }
 
         .footer-divider {
-            color: rgb(214, 158, 73);
+            color: rgb(82, 165, 255);
             opacity: 0.5;
             font-size: 0.8rem;
         }
@@ -436,7 +436,7 @@
     <button class="theme-toggle" id="themeToggle">🌓</button>
     <div class="container">
         <div class="title-wrapper">
-            <h1 class="title">😆 问 <span class="gradient-text">aiBoB</span> 任何东西</h1>
+            <h1 class="title">🐴 问 <span class="gradient-text">HorseGPT</span> 任何东西</h1>
         </div>
         <p class="subtitle">让每一个人，都可以享受AI带来的乐趣</p>
         
