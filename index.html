@@ -436,16 +436,16 @@
     <button class="theme-toggle" id="themeToggle">🌓</button>
     <div class="container">
         <div class="title-wrapper">
-            <h1 class="title">🐴 问 <span class="gradient-text">HorseGPT</span> 任何东西</h1>
+            <h1 class="title" id="main-title">🐴 问 <span class="gradient-text">HorseGPT</span> 任何东西</h1>
         </div>
-        <p class="subtitle">开放的 AI 一站式平台</p>
+        <p class="subtitle" id="main-title">开放的 AI 一站式平台</p>
         
         <div class="search-wrapper">
             <form id="searchForm" action="https://chat.nu.ac.cn/#/chat" method="get">
                 <div class="search-container">
                     <div class="search-input-wrapper">
                         <div class="placeholder-animation" id="placeholderAnimation">
-                             <span class="placeholder-text">解释一下这段代码的意思...</span>
+                             <span class="placeholder-text" id="placeholder-text">解释一下这段代码的意思...</span>
                         </div>
                         <input type="text" 
                                id="searchInput"
@@ -453,7 +453,7 @@
                                class="search-input"
                                autocomplete="off">
                     </div>
-                    <button type="submit" class="search-button">
+                    <button type="submit" class="search-button" id="search-button">
                         问问 HorseGPT
                     </button>
                 </div>
@@ -463,34 +463,95 @@
         <div class="examples">
             <div class="example-card floating">
                 <div class="example-icon">🚀</div>
-                <div class="example-title">编写代码</div>
-                <div class="example-desc">提高编程效率</div>
+                <div class="example-title" id="example-title-1">编写代码</div>
+                <div class="example-desc" id="example-desc-1">提高编程效率</div>
             </div>
             <div class="example-card floating" style="animation-delay: 1s;">
                 <div class="example-icon">💡</div>
-                <div class="example-title">创意灵感</div>
-                <div class="example-desc">激发无限创意</div>
+                <div class="example-title" id="example-title-2">创意灵感</div>
+                <div class="example-desc" id="example-desc-2">激发无限创意</div>
             </div>
             <div class="example-card floating" style="animation-delay: 2s;">
                 <div class="example-icon">📚</div>
-                <div class="example-title">学习知识</div>
-                <div class="example-desc">提升学习效率</div>
+                <div class="example-title" id="example-title-3">学习知识</div>
+                <div class="example-desc" id="example-desc-3">提升学习效率</div>
             </div>
         </div>
         <div class="footer-links animate__animated animate__fadeIn" style="animation-delay: 1.2s;">
-            <a href="https://learn.aibob.top/" class="footer-link">使用方法</a>
+            <a href="https://learn.aibob.top/" class="footer-link" id="footer-link-1">使用方法</a>
             <span class="footer-divider">•</span>
-            <a href="https://media.aibob.top/" class="footer-link">使用条款</a>
+            <a href="https://media.aibob.top/" class="footer-link" id="footer-link-2">使用条款</a>
             <span class="footer-divider">•</span>
-            <a href="https://oneapi.nu.ac.cn/" class="footer-link">HorseGPT API</a>
+            <a href="https://oneapi.nu.ac.cn/" class="footer-link" id="footer-link-3">HorseGPT API</a>
             <span class="footer-divider">•</span>
-            <a href="https://chat.nu.ac.cn/" class="footer-link">HorseGPT Chat</a>
+            <a href="https://chat.nu.ac.cn/" class="footer-link" id="footer-link-4">HorseGPT Chat</a>
             <span class="footer-divider">•</span>
-            <a href="https://status.nu.ac.cn/" class="footer-link">服务状态</a>
+            <a href="https://status.nu.ac.cn/" class="footer-link" id="footer-link-5">服务状态</a>
         </div>
     </div>
 
     <script>
+
+        // 语言支持
+        const languages = {
+            zh: {
+                mainTitle: "🐴 问 <span class='gradient-text'>HorseGPT</span> 任何东西",
+                subtitle: "开放的 AI 一站式平台",
+                placeholderText: "解释一下这段代码的意思...",
+                searchButton: "问问 HorseGPT",
+                exampleTitle1: "编写代码",
+                exampleDesc1: "提高编程效率",
+                exampleTitle2: "创意灵感",
+                exampleDesc2: "激发无限创意",
+                exampleTitle3: "学习知识",
+                exampleDesc3: "提升学习效率",
+                footerLink1: "使用方法",
+                footerLink2: "使用条款",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "服务状态"
+            },
+            en: {
+                mainTitle: "🐴 Ask <span class='gradient-text'>HorseGPT</span> Anything",
+                subtitle: "Open AI One-stop Platform",
+                placeholderText: "Explain what this code means...",
+                searchButton: "Ask HorseGPT",
+                exampleTitle1: "Write Code",
+                exampleDesc1: "Improve coding efficiency",
+                exampleTitle2: "Creative Ideas",
+                exampleDesc2: "Spark infinite creativity",
+                exampleTitle3: "Learn Knowledge",
+                exampleDesc3: "Enhance learning efficiency",
+                footerLink1: "How to Use",
+                footerLink2: "Terms of Use",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "Service Status"
+            }
+        };
+
+        // 获取用户语言
+        const userLang = navigator.language || navigator.userLanguage; 
+        const language = userLang.startsWith('en') ? 'en' : 'zh'; // 判断是否为英文环境
+
+        // 设置页面文本
+        document.getElementById('main-title').innerHTML = languages[language].mainTitle;
+        document.getElementById('subtitle').textContent = languages[language].subtitle;
+        document.getElementById('placeholder-text').textContent = languages[language].placeholderText;
+        document.getElementById('search-button').textContent = languages[language].searchButton;
+        document.getElementById('example-title-1').textContent = languages[language].exampleTitle1;
+        document.getElementById('example-desc-1').textContent = languages[language].exampleDesc1;
+        document.getElementById('example-title-2').textContent = languages[language].exampleTitle2;
+        document.getElementById('example-desc-2').textContent = languages[language].exampleDesc2;
+        document.getElementById('example-title-3').textContent = languages[language].exampleTitle3;
+        document.getElementById('example-desc-3').textContent = languages[language].exampleDesc3;
+        document.getElementById('footer-link-1').textContent = languages[language].footerLink1;
+        document.getElementById('footer-link-2').textContent = languages[language].footerLink2;
+        document.getElementById('footer-link-3').textContent = languages[language].footerLink3;
+        document.getElementById('footer-link-4').textContent = languages[language].footerLink4;
+        document.getElementById('footer-link-5').textContent = languages[language].footerLink5;
+
+        
         const placeholders = [
             "今天晚上吃什么...",
             "学习Python应该怎么学...",
