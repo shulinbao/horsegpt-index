@@ -1,0 +1,25 @@
+providers:
+  - provider: openai
+    base_url: https://api.gptgod.online/v1/chat/completions
+    api: sk-GO4OzDI4USZ67V6DDtdJ0e7mi713ZOpm12x6VlsGPHqbNKVd
+    model:
+      - gpt-3.5-turbo
+      - gpt-4
+      - gpt-4-turbo-preview
+    tools: true
+
+api_keys:
+  - api: sk-uniapi-VlsGPHqbNKVd123456789abcdefghijklmnopqrstuvwxyz
+    model:
+      - gpt-3.5-turbo
+      - gpt-4
+      - gpt-4-turbo-preview
+    preferences:
+      SCHEDULING_ALGORITHM: fixed_priority
+      AUTO_RETRY: true
+      RATE_LIMIT: 60/min
+
+preferences:
+  model_timeout:
+    default: 100
+  cooldown_period: 300

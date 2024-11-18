@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>AIBoB - 让每个人都享受到AI的乐趣</title>
+    <meta name="description" content="AIBoB - 让每个人都享受到AI的乐趣。通过AI技术，提供编程、创意和学习等多方面的帮助与支持。">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: rgb(214, 158, 73);
+            --second: rgb(255, 243, 212);
+            --bg: linear-gradient(120deg, #f6f8fd 0%, #f1f4f9 100%);
+            --text: #1a1a1a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(255, 243, 212, 0.4);
+            --search-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] {
+            --primary: rgb(255, 198, 112);
+            --second: rgb(66, 48, 21);
+            --bg: linear-gradient(120deg, #1a1a1a 0%, #2d2d2d 100%);
+            --text: #ffffff;
+            --card-bg: rgba(40, 40, 40, 0.8);
+            --card-hover: rgba(60, 60, 60, 0.4);
+            --search-bg: rgba(40, 40, 40, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '宋体', SimSun;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            animation: fadeInDown 1s ease;
+            position: relative;
+        }
+
+        .title .gradient-text {
+            background: linear-gradient(
+                135deg,
+                rgb(214, 158, 73) 0%,
+                rgb(224, 168, 83) 30%,
+                rgb(234, 178, 93) 50%,
+                rgb(244, 188, 103) 70%,
+                rgb(255, 243, 212) 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: 0px 2px 10px rgba(214, 158, 73, 0.2);
+            animation: gradientMove 8s ease infinite;
+        }
+
+        .title .gradient-text::after {
+            content: 'BoB';
+            position: absolute;
+            left: 0;
+            top: 0;
+            filter: blur(20px);
+            opacity: 0.3;
+            background: inherit;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            z-index: -1;
+        }
+
+        .subtitle {
+            margin-bottom: 3.5rem;
+            font-size: 1.2rem;
+            animation: fadeIn 1s ease 0.3s both;
+            line-height: 1.6;
+            font-weight: 500;
+            background: linear-gradient(to right, rgb(214, 158, 73), rgb(224, 168, 83));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .search-container {
+            background: var(--search-bg);
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 
+                0 10px 30px rgba(214, 158, 73, 0.05),
+                0 1px 8px rgba(214, 158, 73, 0.02),
+                0 0 0 1px rgba(214, 158, 73, 0.03);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-container:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(214, 158, 73, 0.08),
+                0 1px 10px rgba(214, 158, 73, 0.02),
+                0 0 0 1px rgba(214, 158, 73, 0.03);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .placeholder-animation {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: rgba(214, 158, 73, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .placeholder-text {
+            display: block;
+            animation: slideUpIn 0.5s ease forwards;
+        }
+
+        .placeholder-text.slideOut {
+            animation: slideUpOut 0.5s ease forwards;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 100%;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            border: none;
+            background: transparent;
+            color: rgb(214, 158, 73);
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: transparent;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, rgb(214, 158, 73) 0%, rgb(224, 168, 83) 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: linear-gradient(135deg, rgb(224, 168, 83) 0%, rgb(214, 158, 73) 100%);
+            transform: translateY(-50%) scale(1.02);
+        }
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease 0.9s both;
+        }
+
+        .example-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(214, 158, 73, 0.1);
+            cursor: pointer;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 20px rgba(214, 158, 73, 0.1);
+        }
+
+        .example-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgb(214, 158, 73);
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: rgb(214, 158, 73);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-desc {
+            font-size: 0.9rem;
+            color: rgba(214, 158, 73, 0.8);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .title-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        .title-wrapper::before,
+        .title-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgb(214, 158, 73);
+            top: 50%;
+            transform: translateY(-50%);
+            animation: pulse 2s infinite;
+        }
+
+        .title-wrapper::before {
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .title-wrapper::after {
+            right: 0;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50%) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpIn {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpOut {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .title .gradient-text:hover {
+            animation: rubberBand 1s ease;
+        }
+
+        @keyframes rubberBand {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            40% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            65% { transform: scale(0.98); }
+            75% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .footer-links {
+            margin-top: 3rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgb(214, 158, 73);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: rgb(214, 158, 73);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            background: rgba(255, 243, 212, 0.4);
+        }
+
+        .footer-link:hover::after {
+            width: 80%;
+        }
+
+        .footer-divider {
+            color: rgb(214, 158, 73);
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                gap: 0.5rem;
+            }
+            
+            .footer-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 添加主题切换按钮样式 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* 添加移动端媒体查询 */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">🌓</button>
+    <div class="container">
+        <div class="title-wrapper">
+            <h1 class="title">😆 问 <span class="gradient-text">aiBoB</span> 任何东西</h1>
+        </div>
+        <p class="subtitle">让每一个人，都可以享受AI带来的乐趣</p>
+        
+        <div class="search-wrapper">
+            <form action="https://chat.aibob.top/#/chat" method="get">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <div class="placeholder-animation" id="placeholderAnimation">
+                            <span class="placeholder-text">解释一下这段代码的意思...</span>
+                        </div>
+                        <input type="text" 
+                               id="searchInput"
+                               name="q" 
+                               class="search-input"
+                               autocomplete="off">
+                    </div>
+                    <button type="submit" class="search-button">
+                        发送
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="examples">
+            <div class="example-card floating">
+                <div class="example-icon">🚀</div>
+                <div class="example-title">编写代码</div>
+                <div class="example-desc">提高编程效率</div>
+            </div>
+            <div class="example-card floating" style="animation-delay: 1s;">
+                <div class="example-icon">💡</div>
+                <div class="example-title">创意灵感</div>
+                <div class="example-desc">激发无限创意</div>
+            </div>
+            <div class="example-card floating" style="animation-delay: 2s;">
+                <div class="example-icon">📚</div>
+                <div class="example-title">阅读文件</div>
+                <div class="example-desc">提升工作效率</div>
+            </div>
+        </div>
+        <div class="footer-links animate__animated animate__fadeIn" style="animation-delay: 1.2s;">
+            <a href="https://learn.aibob.top/" class="footer-link">语言学习</a>
+            <span class="footer-divider">•</span>
+            <a href="https://media.aibob.top/" class="footer-link">视频＆音乐生成</a>
+            <span class="footer-divider">•</span>
+            <a href="https://anime.aibob.top/" class="footer-link">二次元树洞</a>
+            <span class="footer-divider">•</span>
+            <a href="https://md.aibob.top/" class="footer-link">Markdown编辑器</a>
+            <span class="footer-divider">•</span>
+            <a href="https://tool.aibob.top/" class="footer-link">全部资源</a>
+        </div>
+    </div>
+
+    <script>
+        const placeholders = [
+            "今天晚上吃什么...",
+            "学习Python应该怎么学...",
+            "最近的大事件...",
+            "图片里面的内容是...",
+            "阅读一下这个文件的内容...",
+            "帮我分析一下这段代码...",
+            "如何提高编程能力...",
+            "推荐几本编程书籍...",
+            "帮我解释这个错误信息...",
+            "这周末去哪里玩比较好..."
+        ];
+
+        let currentIndex = 0;
+        const placeholderAnimation = document.getElementById('placeholderAnimation');
+        const searchInput = document.getElementById('searchInput');
+        let isInputFocused = false;
+        let animationTimeout;
+
+        function updatePlaceholder() {
+            if (isInputFocused || searchInput.value) return;
+
+            const currentPlaceholder = placeholderAnimation.querySelector('.placeholder-text');
+            currentPlaceholder.classList.add('slideOut');
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % placeholders.length;
+                placeholderAnimation.innerHTML = `<span class="placeholder-text">${placeholders[currentIndex]}</span>`;
+            }, 250);
+        }
+
+        function startPlaceholderAnimation() {
+            if (!isInputFocused && !searchInput.value) {
+                animationTimeout = setInterval(updatePlaceholder, 1500);
+            }
+        }
+
+        function stopPlaceholderAnimation() {
+            clearInterval(animationTimeout);
+        }
+
+        searchInput.addEventListener('focus', () => {
+            isInputFocused = true;
+            placeholderAnimation.style.opacity = '0';
+            stopPlaceholderAnimation();
+        });
+
+        searchInput.addEventListener('blur', () => {
+            isInputFocused = false;
+            if (!searchInput.value) {
+                placeholderAnimation.style.opacity = '1';
+                startPlaceholderAnimation();
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value) {
+                placeholderAnimation.style.opacity = '0';
+                stopPlaceholderAnimation();
+            } else if (!isInputFocused) {
+                placeholderAnimation.style.opacity = '1';
+                startPlaceholderAnimation();
+            }
+        });
+
+        // 初始化
+        startPlaceholderAnimation();
+
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // 检查是否是移动设备
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            // 移动端：跟随系统主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // 初始设置
+            if (prefersDark.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            
+            // 监听系统主题变化
+            prefersDark.addEventListener('change', (e) => {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            });
+        } else {
+            // 桌面端：保持原有的手动切换逻辑
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeToggle.textContent = savedTheme === 'dark' ? '🌞' : '🌓';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '🌞' : '🌓';
+            });
+
+            // 检查系统主题偏好（仅在首次访问时）
+            if (!savedTheme) {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌞';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
