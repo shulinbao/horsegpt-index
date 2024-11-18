@@ -545,7 +545,7 @@
                 footerLink5: "服務狀態"
             }
         };
-
+        
         // 获取用户语言
         const userLang = navigator.language || navigator.userLanguage; 
 
@@ -553,18 +553,46 @@
         let language;
         if (userLang.startsWith('zh-HK') || userLang.startsWith('zh-MO') || userLang.startsWith('zh-TW')) {
             language = 'zh_TW'; // 繁体中文
-            languageLinks = links.zh_TW;
         } else if (userLang.startsWith('zh')) {
             language = 'zh'; // 简体中文
-            languageLinks = links.zh;
         } else if (userLang.startsWith('en')) {
             language = 'en'; // 英文
-            languageLinks = links.en;
         } else {
             language = 'en'; // 默认英文
-            languageLinks = links.en;
         }
 
+        const links = {
+            zh: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=帮我用Python写一个个人网站",  // 编写代码的链接
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=复述这个消息：欢迎使用HorseGPT，很高兴能成为你的创意助手，你可以使用面具实现各种功能哦!", // 创意灵感的链接
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告诉我一个有趣的历史知识" // 学习知识的链接
+            },
+            en: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=Help%20me%20write%20a%20personal%20website%20using%20Python",
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=Paraphrase%20this%20message%3A%20Welcome%20to%20HorseGPT%2C%20we%20are%20excited%20to%20be%20your%20creative%20assistant.%20You%20can%20use%20the%20mask%20to%20access%20various%20features%21",
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=Tell%20me%20an%20interesting%20piece%20of%20historical%20knowledge"
+            },
+            zh_TW: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=幫我用Python寫一個個人網站",
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=復述這個消息%EF%BC%9A歡迎使用HorseGPT%EF%BC%8C很高興能成為你的創意助手%EF%BC%8C你可以使用面具實現各種功能哦%21",
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告訴我一個有趣的歷史知識"
+            }
+        };
+
+        // 根据用户语言选择链接
+        let languageLinks = links[language]; 
+
+        // 设置页面文本和卡片点击事件
+        document.getElementById('example-card-1').onclick = function() {
+            window.location.href = languageLinks["example-card-1"];
+        };
+        document.getElementById('example-card-2').onclick = function() {
+            window.location.href = languageLinks["example-card-2"];
+        };
+        document.getElementById('example-card-3').onclick = function() {
+            window.location.href = languageLinks["example-card-3"];
+        };
+        
         // 设置页面文本
         document.getElementById('main-title').innerHTML = languages[language].mainTitle;
         document.getElementById('subtitle').innerHTML = languages[language].subtitle;
@@ -678,39 +706,6 @@
 
         // 初始化
         startPlaceholderAnimation();
-
-        const links = {
-            zh: {
-                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=帮我用Python写一个个人网站",  // 编写代码的链接
-                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=复述这个消息：欢迎使用HorseGPT，很高兴能成为你的创意助手，你可以使用面具实现各种功能哦!", // 创意灵感的链接
-                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告诉我一个有趣的历史知识" // 学习知识的链接
-            },
-            en: {
-                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=Help%20me%20write%20a%20personal%20website%20using%20Python",
-                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=Paraphrase%20this%20message%3A%20Welcome%20to%20HorseGPT%2C%20we%20are%20excited%20to%20be%20your%20creative%20assistant.%20You%20can%20use%20the%20mask%20to%20access%20various%20features%21",
-                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=Tell%20me%20an%20interesting%20piece%20of%20historical%20knowledge"
-
-            },
-            zh_TW: {
-                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=幫我用Python寫一個個人網站",
-                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=復述這個消息%EF%BC%9A歡迎使用HorseGPT%EF%BC%8C很高興能成為你的創意助手%EF%BC%8C你可以使用面具實現各種功能哦%21",
-                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告訴我一個有趣的歷史知識"
-            }
-        };
-
-        // 根据用户语言选择链接
-        let languageLinks = links.en; // 默认英文
-
-        // 为每个卡片设置点击事件
-        document.getElementById('example-card-1').onclick = function() {
-            window.location.href = languageLinks["example-card-1"];
-        };
-        document.getElementById('example-card-2').onclick = function() {
-            window.location.href = languageLinks["example-card-2"];
-        };
-        document.getElementById('example-card-3').onclick = function() {
-            window.location.href = languageLinks["example-card-3"];
-        };    
         
         // 主题切换功能
         const themeToggle = document.getElementById('themeToggle');
