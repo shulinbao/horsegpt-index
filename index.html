@@ -552,25 +552,41 @@
         document.getElementById('footer-link-5').innerHTML = languages[language].footerLink5;
 
         
-        const placeholders = [
-            "今天晚上吃什么...",
-            "学习Python应该怎么学...",
-            "最近的大事件...",
-            "图片里面的内容是...",
-            "阅读一下这个文件的内容...",
-            "帮我分析一下这段代码...",
-            "如何提高编程能力...",
-            "推荐几本编程书籍...",
-            "帮我解释这个错误信息...",
-            "这周末去哪里玩比较好..."
-        ];
-
+        const placeholders = {
+            "zh": [
+                "今天晚上吃什么...",
+                "学习Python应该怎么学...",
+                "最近的大事件...",
+                "图片里面的内容是...",
+                "阅读一下这个文件的内容...",
+                "帮我分析一下这段代码...",
+                "如何提高编程能力...",
+                "推荐几本编程书籍...",
+                "帮我解释这个错误信息...",
+                "这周末去哪里玩比较好..."
+                ],
+            "en": [
+                "What to eat tonight...",
+                "How to learn Python...",
+                "Recent major events...",
+                "What's in the picture...",
+                "Read the content of this file...",
+                "Help me analyze this code...",
+                "How to improve programming skills...",
+                "Recommend some programming books...",
+                "Help me explain this error message...",
+                "Where to go this weekend..."
+            ]
+        };
+        
         let currentIndex = 0;
         const placeholderAnimation = document.getElementById('placeholderAnimation');
         const searchInput = document.getElementById('searchInput');
         let isInputFocused = false;
         let animationTimeout;
 
+        const currentPlaceholders = placeholders[language];
+        
         function updatePlaceholder() {
             if (isInputFocused || searchInput.value) return;
 
@@ -578,8 +594,8 @@
             currentPlaceholder.classList.add('slideOut');
 
             setTimeout(() => {
-                currentIndex = (currentIndex + 1) % placeholders.length;
-                placeholderAnimation.innerHTML = `<span class="placeholder-text">${placeholders[currentIndex]}</span>`;
+                currentIndex = (currentIndex + 1) % currentPlaceholders.length;
+                placeholderAnimation.innerHTML = `<span class="placeholder-text">${currentPlaceholders[currentIndex]}</span>`;
             }, 250);
         }
 
