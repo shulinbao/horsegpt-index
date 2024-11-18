@@ -491,7 +491,6 @@
     </div>
 
     <script>
-
         // 语言支持
         const languages = {
             zh: {
@@ -527,12 +526,28 @@
                 footerLink3: "HorseGPT API",
                 footerLink4: "HorseGPT Chat",
                 footerLink5: "Service Status"
-            }
+            },
+            zh_TW: {  // 繁体中文支持
+                mainTitle: "🐴 問 <span class='gradient-text'>HorseGPT</span> 任何東西",
+                subtitle: "開放的 AI 一站式平台",
+                placeholderText: "解釋一下這段程式碼的意思...",
+                searchButton: "問問 HorseGPT",
+                exampleTitle1: "編寫程式碼",
+                exampleDesc1: "提高編程效率",
+                exampleTitle2: "創意靈感",
+                exampleDesc2: "激發無限創意",
+                exampleTitle3: "學習知識",
+                exampleDesc3: "提升學習效率",
+                footerLink1: "使用方法",
+                footerLink2: "使用條款",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "服務狀態"
         };
 
         // 获取用户语言
         const userLang = navigator.language || navigator.userLanguage; 
-        const language = userLang.startsWith('en') ? 'en' : 'zh'; // 判断是否为英文环境
+        const language = userLang.startsWith('zh') ? (userLang.startsWith('zh-TW') ? 'zh_TW' : 'zh') : (userLang.startsWith('en') ? 'en' : 'zh'); // 判断语言环境
 
         // 设置页面文本
         document.getElementById('main-title').innerHTML = languages[language].mainTitle;
@@ -576,6 +591,18 @@
                 "Recommend some programming books...",
                 "Help me explain this error message...",
                 "Where to go this weekend..."
+            ],
+            "zh_TW": [  // 繁体中文占位符
+                "今晚吃什麼...",
+                "學習Python應該怎麼學...",
+                "最近的大事件...",
+                "圖片裡面的內容是...",
+                "閱讀一下這個文件的內容...",
+                "幫我分析一下這段程式碼...",
+                "如何提高程式編寫能力...",
+                "推薦幾本程式編寫書籍...",
+                "幫我解釋這個錯誤訊息...",
+                "這週末去哪裡玩比較好..."
             ]
         };
         
