@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>HorseGPT 使用条款</title>
+    <meta name="description" content="如何使用HorseGPT，为您的AI服务提供支持。包括注册、充值、获取令牌等流程。">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #e6f7ff 0%, #e6f7ff 100%);
+            --text: #1a1a1a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(255, 243, 212, 0.4);
+            --search-bg: rgba(255, 255, 255, 0.95);
+        }
+		
+		[data-theme="dark"] {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #1a1a1a 0%, #2d2d2d 100%);
+            --text: #ffffff;
+            --card-bg: rgba(40, 40, 40, 0.8);
+            --card-hover: rgba(60, 60, 60, 0.4);
+            --search-bg: rgba(40, 40, 40, 0.95);
+        }
+		
+	        /* 添加主题切换按钮样式 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }	
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+			flex-direction: column; /* 确保内容和 footer 垂直排列 */
+			justify-content: space-between; /* 保证内容和 footer 分开，footer 固定在底部 */
+            padding: 20px;
+            font-family:  "Noto Sans", "SF Pro SC", "SF Pro Text", "SF Pro Icons",
+    "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 0.75rem; /* 更小的字体 */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .title {
+            font-size: 1.75rem; /* 更小的标题字体 */
+            color: var(--text); /* 标题默认黑色 */
+            margin-bottom: 2rem;
+            font-weight: 800;
+            text-align: center;
+            animation: fadeInDown 1s ease;
+        }
+		
+		.title1 {
+            font-size: 1.75rem; /* 更小的标题字体 */
+            color: var(--text); /* 标题默认黑色 */
+            margin-bottom: 2rem;
+            font-weight: 800;
+            text-align: center;
+            animation: fadeIn 1s ease 0.9s both;
+        }
+
+        .title span {
+            background: linear-gradient(
+                135deg,
+                rgb(0, 123, 255) 0%,
+                rgb(0, 113, 245) 30%,
+                rgb(0, 103, 235) 50%,
+                rgb(0, 93, 225) 70%,
+                rgb(230, 247, 255) 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: 0px 2px 10px rgba(0, 123, 255, 0.2);
+            animation: gradientMove 8s ease infinite;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.25rem; /* 缩小内边距 */
+            margin-bottom: 1.5rem; /* 缩小步骤间距 */
+			margin-top: 2rem; /* Add extra margin here */
+			backdrop-filter: blur(10px);
+            box-shadow: 1px solid rgba(0, 123, 255, 0.1);
+            transition: transform 0.3s ease;
+			animation: fadeIn 1s ease 0.9s both;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            font-size: 1.25rem; /* 更小的步骤标题字体 */
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-content {
+            font-size: 0.85rem; /* 更小的内容字体 */
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+	    /* 表格居中 */
+		.table-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 20px 0;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 80%;
+			max-width: 800px;
+			margin: 20px 0;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 8px;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: center;
+			font-size: 12px;
+		}
+
+		th {
+			background-color: #007bff;
+			color: white;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		tr:hover {
+			background-color: #ddd;
+		}
+
+		td {
+			border-bottom: 1px solid #ddd;
+		}
+
+        .footer-links {
+            margin-top: 3rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgb(0, 123, 255);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: rgb(0, 123, 255);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            background: rgba(230, 247, 255, 0.4);
+        }
+
+        .footer-link:hover::after {
+            width: 80%;
+        }
+
+        .footer-divider {
+            color: rgb(82, 165, 255);
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                gap: 0.5rem;
+            }
+            
+            .footer-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+<button class="theme-toggle" id="themeToggle">🌓</button>
+<div class="container">
+    <h1 class="title" id="title"><span>HorseGPT</span> 使用条款</h1>
+
+    <div class="section">
+        <div class="section-content" id="sectionContent1">
+            根据《生成式人工智能服务管理暂行办法》，中华人民共和国境内用户请使用国产大模型，请勿用于非法行为和操作。本服务服务器位于日本，负载服务器位于美国，请遵守所在地和相关地区的法律法规。
+        </div>
+    </div>
+
+    <h1 class="title1" id="title1">提供的服务</h1>
+
+    <div class="section">
+        <div class="section-header" id="sectionHeader2"><span>HorseGPT</span></div>
+        <div class="section-content" id="sectionContent2">
+            包括自主训练的大语言模型 HorseGPT，以及多种经过二次训练及优化的开源大模型，包括 Llama、Llava 等。
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header" id="sectionHeader3"><span>HorseGPT API</span></div>
+        <div class="section-content" id="sectionContent3">
+            提供多种大模型的 API 服务，并提供用户面板、令牌发放等服务，便于用户控制 AI 的使用。。
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header" id="sectionHeader4"><span>API 转发与加速服务</span></div>
+        <div class="section-content" id="sectionContent4">
+            由 Cloudflare 提供，使全球大多数国家能够快速访问我们的 API。
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header" id="sectionHeader5"><span>HorseGPT Chat</span></div>
+        <div class="section-content" id="sectionContent5">
+            提供接入 API 的基础聊天、文本生成及 AI 使用服务。HorseGPT Chat 需要通过密码或 HorseGPT API 令牌才能访问。
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header" id="sectionHeader6"><span>HorseGPT 项目的网站和说明文档</span></div>
+        <div class="section-content" id="sectionContent6">
+            为用户提供参考。
+        </div>
+    </div>
+
+
+
+<h1 class="title1" id="title2">注意事项</h1>
+
+<div class="section">
+    <div class="section-content" id="sectionContent7">
+        您访问并使用 HorseGPT 项目的任意服务/网站，便意味着您已经接受了以下条款：
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent8">
+        本项目提供上述服务的用途为测试，其生成内容的来源是开源的模型/数据集，受到相关模型/数据集的使用条款约束。本项目不构成对上述模型的二次分发，也不对生成内容的准确性负责。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent9">
+        本项目提供的部分 API 转发服务，其目的在于内部测试。我们将通过合理的方式筛选参与测试的用户，并在有限的范围内通过测试，帮助各种开源 AI 项目的开发。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent10">
+        本项目通过多个国家的服务器均衡负载，并保证服务尽量长久运行。基于测试的目的，但本项目不对服务的可用性做任何保证。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent11">
+        本项目基于多个开源项目二次开发而成，包括 Open-webui、One-API 等，您可以访问相关项目的主页查看其协议及使用条款，我们将根据协议在仓库中开放使用的源代码。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent12">
+        本项目产生的各种费用，其性质为对项目开发者的捐款，我们将审慎利用这些捐款，并为开源社区做出贡献。本项目的任何收费均为自愿项目，且并不对应任何具体的 AI 服务与 AI 产品。本项目有权根据用户对开发者的捐款，向用户提供更多测试内容。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent13">
+        对于滥用/破坏/导致项目不能正常运行的用户，本项目有权限制其使用，必要时通过法律途径处理。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent14">
+        本项目的开发者拥有上述声明的最终解释权。对于服务及产品的任何变更，以开发者的声明为准。
+    </div>
+</div>
+
+
+<h1 class="title1" id="title3">隐私声明</h1>
+
+<div class="section">
+    <div class="section-content" id="sectionContent15">
+        本项目不会搜集您使用过程中的任何个人信息，包括账号、密码、个人信息、交互内容等。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-content" id="sectionContent16">
+        本项目的大多数代码开放存取，您可以参考仓库中的内容，以判断服务的安全性。HorseGPT 项目声明，开发者并未在网站/程序/服务中加入任何搜集个人信息的功能。
+    </div>
+</div>
+
+
+<h1 class="title1" id="title4">常见问题</h1>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader17">我该如何注册并使用该服务</div>
+    <div class="section-content" id="sectionContent17">
+        请参考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader18">我无法在 HorseGPT API 系统中获取兑换码并充值</div>
+    <div class="section-content" id="sectionContent18">
+        由于测试所限及相关地区对测试的法律法规限制，本服务并未开通稳定的兑换码获取渠道。您可以<a href="mailto:admin@nu.ac.cn">邮件联系：admin@nu.ac.cn</a>了解更多信息。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader19">我无法在 HorseGPT Chat 中使用我的令牌</div>
+    <div class="section-content" id="sectionContent19">
+        请确认余额及令牌的可用性。请确认您在 HorseGPT Chat 中输入的令牌是否正确，并在正确的位置输入。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader20">我在使用 API 服务 / HorseGPT Chat 时出现了报错</div>
+    <div class="section-content" id="sectionContent20">
+        如果是网站或系统问题，请通过<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">此链接</a>提交工单。如果 AI 回复时报 400、 403 或上游渠道错误，这是由于上游渠道限额所致，请稍后重新使用，如果问题持续或反复出现，请通过<a href="mailto:admin@nu.ac.cn">邮件：admin@nu.ac.cn</a>或<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">工单链接</a>及时联系我们。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader21">HorseGPT API 对不同模型的收费价格如何</div>
+    <div class="section-content" id="sectionContent21">
+        以下价格以倍率为单位。模型倍率是用来展示不同模型费用差异的指标。以0.002美元为基准，例如3.5模型的官方价格是0.0015美元/1000tokens，那么它的倍率是0.75（0.0015除以0.002）。4.0模型的官方价格是0.03美元/1000tokens，其倍率则是15（0.03除以0.002）。这个倍率可以直观看出不同模型的费用比率。
+        <div class="table-container">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th id="model-name">模型名称</th>
+                        <th id="multiplier">倍率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="claude-3-5-haiku2">claude-3-5-haiku2（Claude 是由Anthropic 开发的一系列最先进的大型语言模型）</td>
+                        <td>0.5</td>
+                    </tr>
+                    <tr>
+                        <td id="gpt-3.5-turbo">gpt-3.5-turbo（OpenAI推出的一种自然语言处理模型） </td>
+                        <td>0.25</td>
+                    </tr>
+                    <tr>
+                        <td id="gpt-4o">gpt-4o（它是一个多模态模型，具备与GPT-4 相同的智能水平，但速度更快）</td>
+                        <td>2.5</td>
+                    </tr>
+                    <tr>
+                        <td id="gpt-4o-mini">gpt-4o-mini（它是 OpenAI 的一种较小的 GPT-4  模型变体）</td>
+                        <td>0.075</td>
+                    </tr>
+                    <tr>
+                        <td id="llama-3-1-70b">llama-3.1-70b（Llama-3.1-70b 是一个由 Meta 开发的大规模语言模型）</td>
+                        <td>0.295</td>
+                    </tr>
+                    <tr>
+                        <td id="llama-3-1-70b-versatile">llama-3.1-70b-versatile（是一种多功能的模型，具有处理多种不同任务的能力）</td>
+                        <td>0.295</td>
+                    </tr>
+                    <tr>
+                        <td id="llama-3-2-90b-text-preview">llama-3.2-90b-text-preview（它是 Meta 开发的的模型，拥有90亿个参数，并且是一个文本预览版本）</td>
+                        <td>0.295</td>
+                    </tr>
+                    <tr>
+                        <td id="llama-3-2-90b-vision-preview">llama-3.2-90b-vision-preview（是首批支持视觉任务的Llama 模型，采用了新的模型架构，将图像编码器表征集成到语言模型中）</td>
+                        <td>0.295</td>
+                    </tr>
+                    <tr>
+                        <td id="mixtral-8x7b">mixtral-8x7b（是一种具有开放权重的稀疏专家混合模型）</td>
+                        <td>0.35</td>
+                    </tr>
+                    <tr>
+                        <td id="tts-1">tts-1（OpenAI TTS 的基本版本）</td>
+                        <td>7.5</td>
+                    </tr>
+                    <tr>
+                        <td id="tts-1-hd">tts-1-hd（与 tts-1 类似，但更注重语音质量）</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td id="dall-e-3">dall-e-3（DALL-E 3 是 OpenAI 发布的一款文生成图 AI 系统）</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="section">
+    <div class="section-header" id="sectionHeader22">HorseGPT API 接口的地址是什么</div>
+    <div class="section-content" id="sectionContent22">
+        请参考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header" id="sectionHeader23">账户额度足够为什么提示额度不足</div>
+    <div class="section-content" id="sectionContent23">
+        账户额度与令牌额度不是一个东西，请确认账户及令牌的情况。
+    </div>
+</div>
+
+	<div class="footer-links animate__animated animate__fadeIn" style="animation-delay: 1.2s;">
+		<a href="https://gpt.nu.ac.cn/guide" class="footer-link" id="footerLink1">使用方法</a>
+        <span class="footer-divider">•</span>
+        <a href="https://gpt.nu.ac.cn/faq" class="footer-link" id="footerLink2">使用条款</a>
+        <span class="footer-divider">•</span>
+        <a href="https://oneapi.nu.ac.cn/" class="footer-link" id="footerLink3">HorseGPT API</a>
+        <span class="footer-divider">•</span>
+        <a href="https://chat.nu.ac.cn/" class="footer-link" id="footerLink4">HorseGPT Chat</a>
+        <span class="footer-divider">•</span>
+        <a href="https://status.nu.ac.cn/" class="footer-link" id="footerLink5">服务状态</a>
+    </div>
+	<script>
+	
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // 获取浏览器语言
+        var userLang = navigator.language || navigator.userLanguage;
+
+		let lang = 'en'; // Default to English
+		
+		// Check user's browser language and set the language accordingly
+		if (userLang.includes('zh-TW')) {
+			lang = 'zh-TW'; // Traditional Chinese
+		} else if (userLang.includes('zh')) {
+			lang = 'zh'; // Simplified Chinese
+		} else {
+			lang = 'en'; // Default to English
+		}
+
+
+        // 定义不同语言的内容
+        const languageContent = {
+            'zh': {
+		        title: "<span>HorseGPT</span> 使用条款",
+				sectionContent1: '根据《生成式人工智能服务管理暂行办法》，中华人民共和国境内用户请使用国产大模型，请勿用于非法行为和操作。本服务服务器位于日本，负载服务器位于美国，请遵守所在地和相关地区的法律法规。',
+				title1: "提供的服务",
+				sectionHeader2: "HorseGPT",
+				sectionContent2: '包括自主训练的大语言模型 HorseGPT，以及多种经过二次训练及优化的开源大模型，包括 Llama、Llava 等。',
+				sectionHeader3: "HorseGPT API",
+				sectionContent3: '提供多种大模型的 API 服务，并提供用户面板、令牌发放等服务，便于用户控制 AI 的使用。',
+				sectionHeader4: "API 转发与加速服务",
+				sectionContent4: '由 Cloudflare 提供，使全球大多数国家能够快速访问我们的 API。',
+				sectionHeader5: "HorseGPT Chat",
+				sectionContent5: '提供接入 API 的基础聊天、文本生成及 AI 使用服务。HorseGPT Chat 需要通过密码或 HorseGPT API 令牌才能访问。',
+				sectionHeader6: "HorseGPT 项目的网站和说明文档",
+				sectionContent6: '为用户提供参考。',			
+			
+				title2: "注意事项",
+				sectionContent7: '您访问并使用 HorseGPT 项目的任意服务/网站，便意味着您已经接受了以下条款：',
+				sectionContent8: '本项目提供上述服务的用途为测试，其生成内容的来源是开源的模型/数据集，受到相关模型/数据集的使用条款约束。本项目不构成对上述模型的二次分发，也不对生成内容的准确性负责。',
+				sectionContent9: '本项目提供的部分 API 转发服务，其目的在于内部测试。我们将通过合理的方式筛选参与测试的用户，并在有限的范围内通过测试，帮助各种开源 AI 项目的开发。',
+				sectionContent10: '本项目通过多个国家的服务器均衡负载，并保证服务尽量长久运行。基于测试的目的，但本项目不对服务的可用性做任何保证。',
+				sectionContent11: '本项目基于多个开源项目二次开发而成，包括 Open-webui、One-API 等，您可以访问相关项目的主页查看其协议及使用条款，我们将根据协议在仓库中开放使用的源代码。',
+				sectionContent12: '本项目产生的各种费用，其性质为对项目开发者的捐款，我们将审慎利用这些捐款，并为开源社区做出贡献。本项目的任何收费均为自愿项目，且并不对应任何具体的 AI 服务与 AI 产品。本项目有权根据用户对开发者的捐款，向用户提供更多测试内容。',
+				sectionContent13: '对于滥用/破坏/导致项目不能正常运行的用户，本项目有权限制其使用，必要时通过法律途径处理。',
+				sectionContent14: '本项目的开发者拥有上述声明的最终解释权。对于服务及产品的任何变更，以开发者的声明为准。',
+				title3: "隐私声明",
+				sectionContent15: '本项目不会搜集您使用过程中的任何个人信息，包括账号、密码、个人信息、交互内容等。',
+				sectionContent16: '本项目的大多数代码开放存取，您可以参考仓库中的内容，以判断服务的安全性。HorseGPT 项目声明，开发者并未在网站/程序/服务中加入任何搜集个人信息的功能。',		
+                sectionHeader17: "我该如何注册并使用该服务",
+				sectionContent17: '请参考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。',
+				sectionHeader18: "我无法在 HorseGPT API 系统中获取兑换码并充值",
+				sectionContent18: '由于测试所限及相关地区对测试的法律法规限制，本服务并未开通稳定的兑换码获取渠道。您可以<a href="mailto:admin@nu.ac.cn">邮件联系：admin@nu.ac.cn</a>了解更多信息。',
+				sectionHeader19: "我无法在 HorseGPT Chat 中使用我的令牌",
+				sectionContent19: '请确认余额及令牌的可用性。请确认您在 HorseGPT Chat 中输入的令牌是否正确，并在正确的位置输入。',
+				sectionHeader20: "我在使用 API 服务 / HorseGPT Chat 时出现了报错",
+				sectionContent20: '如果是网站或系统问题，请通过<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">此链接</a>提交工单。如果 AI 回复时报 400、 403 或上游渠道错误，这是由于上游渠道限额所致，请稍后重新使用，如果问题持续或反复出现，请通过<a href="mailto:admin@nu.ac.cn">邮件：admin@nu.ac.cn</a>或<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">工单链接</a>及时联系我们。',
+				sectionHeader21: "HorseGPT API 对不同模型的收费价格如何",
+                sectionContent21: `
+                    以下价格以倍率为单位。模型倍率是用来展示不同模型费用差异的指标。以0.002美元为基准，例如3.5模型的官方价格是0.0015美元/1000tokens，那么它的倍率是0.75（0.0015除以0.002）。4.0模型的官方价格是0.03美元/1000tokens，其倍率则是15（0.03除以0.002）。这个倍率可以直观看出不同模型的费用比率。
+                    <div class="table-container">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th id="model-name">模型名称</th>
+                                    <th id="multiplier">倍率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="claude-3-5-haiku2">claude-3-5-haiku2（Claude 是由Anthropic 开发的一系列最先进的大型语言模型）</td>
+                                    <td>0.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-3.5-turbo">gpt-3.5-turbo（OpenAI推出的一种自然语言处理模型） </td>
+                                    <td>0.25</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o">gpt-4o（它是一个多模态模型，具备与GPT-4 相同的智能水平，但速度更快）</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o-mini">gpt-4o-mini（它是 OpenAI 的一种较小的 GPT-4  模型变体）</td>
+                                    <td>0.075</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b">llama-3.1-70b（Llama-3.1-70b 是一个由 Meta 开发的大规模语言模型）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b-versatile">llama-3.1-70b-versatile（是一种多功能的模型，具有处理多种不同任务的能力）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-text-preview">llama-3.2-90b-text-preview（它是 Meta 开发的的模型，拥有90亿个参数，并且是一个文本预览版本）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-vision-preview">llama-3.2-90b-vision-preview（是首批支持视觉任务的Llama 模型，采用了新的模型架构，将图像编码器表征集成到语言模型中）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="mixtral-8x7b">mixtral-8x7b（是一种具有开放权重的稀疏专家混合模型）</td>
+                                    <td>0.35</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1">tts-1（OpenAI TTS 的基本版本）</td>
+                                    <td>7.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1-hd">tts-1-hd（与 tts-1 类似，但更注重语音质量）</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td id="dall-e-3">dall-e-3（DALL-E 3 是 OpenAI 发布的一款文生成图 AI 系统）</td>
+                                    <td>20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                sectionHeader22: "HorseGPT API 接口的地址是什么",
+                sectionContent22: '请参考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。',
+                sectionHeader23: "账户额度足够为什么提示额度不足",
+                sectionContent23: '账户额度与令牌额度不是一个东西，请确认账户及令牌的情况。',
+                footerLink1: '使用方法',
+                footerLink2: '使用条款',
+                footerLink3: 'HorseGPT API',
+                footerLink4: 'HorseGPT Chat',
+                footerLink5: '服务状态'
+            },
+            'zh-TW': {
+		        title: "<span>HorseGPT</span> 使用條款",
+				sectionContent1: '根據《生成式人工智能服務管理暫行辦法》，中華人民共和國境內用戶請使用國產大模型，請勿用於非法行為和操作。本服務伺服器位於日本，負載伺服器位於美國，請遵守所在地和相關地區的法律法規。',
+				title1: "提供的服務",
+				sectionHeader2: "HorseGPT",
+				sectionContent2: '包括自主訓練的大語言模型 HorseGPT，以及多種經過二次訓練及優化的開源大模型，包括 Llama、Llava 等。',
+				sectionHeader3: "HorseGPT API",
+				sectionContent3: '提供多種大模型的 API 服務，並提供用戶面板、令牌發放等服務，便於用戶控制 AI 的使用。',
+				sectionHeader4: "API 轉發與加速服務",
+				sectionContent4: '由 Cloudflare 提供，使全球大多數國家能夠快速訪問我們的 API。',
+				sectionHeader5: "HorseGPT Chat",
+				sectionContent5: '提供接入 API 的基礎聊天、文本生成及 AI 使用服務。HorseGPT Chat 需要通過密碼或 HorseGPT API 令牌才能訪問。',
+				sectionHeader6: "HorseGPT 項目的网站和說明文檔",
+				sectionContent6: '為用戶提供參考。',	
+				title2: "注意事項",
+				sectionContent7: '您訪問並使用 HorseGPT 項目的任意服務/網站，便意味著您已經接受了以下條款：',
+				sectionContent8: '本項目提供上述服務的用途為測試，其生成內容的來源是開源的模型/數據集，受到相關模型/數據集的使用條款約束。本項目不構成對上述模型的二次分發，也不對生成內容的準確性負責。',
+				sectionContent9: '本項目提供的部分 API 轉發服務，其目的是為了內部測試。我們將通過合理的方式篩選參與測試的用戶，並在有限的範圍內通過測試，幫助各種開源 AI 項目的開發。',
+				sectionContent10: '本項目通過多個國家的伺服器均衡負載，並保證服務盡量長久運行。基於測試的目的，但本項目不對服務的可用性做任何保證。',
+				sectionContent11: '本項目基於多個開源項目二次開發而成，包括 Open-webui、One-API 等，您可以訪問相關項目的主頁查看其協議及使用條款，我們將根據協議在倉庫中開放使用的源代碼。',
+				sectionContent12: '本項目產生的各種費用，其性質為對項目開發者的捐款，我們將審慎利用這些捐款，並為開源社區做出貢獻。本項目的任何收費均為自願項目，且並不對應任何具體的 AI 服務與 AI 產品。本項目有權根據用戶對開發者的捐款，向用戶提供更多測試內容。',
+				sectionContent13: '對於濫用/破壞/導致項目不能正常運行的用戶，本項目有權限制其使用，必要時通過法律途徑處理。',
+				sectionContent14: '本項目的開發者擁有上述聲明的最終解釋權。對於服務及產品的任何變更，以開發者的聲明為準。',
+				title3: "隱私聲明",
+				sectionContent15: '本項目不會搜集您使用過程中的任何個人信息，包括帳號、密碼、個人信息、交互內容等。',
+				sectionContent16: '本項目的大多數代碼開放存取，您可以參考倉庫中的內容，以判斷服務的安全性。HorseGPT 項目聲明，開發者並未在網站/程式/服務中加入任何搜集個人信息的功能。',			
+                sectionHeader17: "我該如何註冊並使用該服務",
+				sectionContent17: '請參考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。',
+				sectionHeader18: "我無法在 HorseGPT API 系統中獲取兌換碼並充值",
+				sectionContent18: '由於測試所限及相關地區對測試的法律法規限制，本服務並未開通穩定的兌換碼獲取渠道。您可以<a href="mailto:admin@nu.ac.cn">郵件聯繫：admin@nu.ac.cn</a>瞭解更多信息。',
+				sectionHeader19: "我無法在 HorseGPT Chat 中使用我的令牌",
+				sectionContent19: '請確認餘額及令牌的可用性。請確認您在 HorseGPT Chat 中輸入的令牌是否正確，並在正確的位置輸入。',
+				sectionHeader20: "我在使用 API 服務 / HorseGPT Chat 時出現了報錯",
+				sectionContent20: '如果是網站或系統問題，請通過<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">此連結</a>提交工單。如果 AI 回覆時報 400、 403 或上游渠道錯誤，這是由於上游渠道限額所致，請稍後重新使用，如果問題持續或反覆出現，請通過<a href="mailto:admin@nu.ac.cn">郵件：admin@nu.ac.cn</a>或<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">工單連結</a>及時聯繫我們。',
+				sectionHeader21: "HorseGPT API 對不同模型的收費價格如何",
+                sectionContent21: `
+                    以下價格以倍率為單位。模型倍率是用來展示不同模型費用差異的指標。以0.002美元為基準，例如3.5模型的官方價格是0.0015美元/1000tokens，那麼它的倍率是0.75（0.0015除以0.002）。4.0模型的官方價格是0.03美元/1000tokens，其倍率則是15（0.03除以0.002）。這個倍率可以直觀看出不同模型的費用比率。
+                    <div class="table-container">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th id="model-name">模型名稱</th>
+                                    <th id="multiplier">倍率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="claude-3-5-haiku2">claude-3-5-haiku2（Claude 是由Anthropic 開發的一系列最先進的大型語言模型）</td>
+                                    <td>0.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-3.5-turbo">gpt-3.5-turbo（OpenAI推出的一種自然語言處理模型） </td>
+                                    <td>0.25</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o">gpt-4o（它是一個多模態模型，具備與GPT-4 相同的智能水平，但速度更快）</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o-mini">gpt-4o-mini（它是 OpenAI 的一種較小的 GPT-4  模型變體）</td>
+                                    <td>0.075</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b">llama-3.1-70b（Llama-3.1-70b 是一個由 Meta 開發的大規模語言模型）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b-versatile">llama-3.1-70b-versatile（是一種多功能的模型，具有處理多種不同任務的能力）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-text-preview">llama-3.2-90b-text-preview（它是 Meta 開發的的模型，擁有90億個參數，並且是一個文本預覽版本）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-vision-preview">llama-3.2-90b-vision-preview（是首批支持視覺任務的Llama 模型，採用了新的模型架構，將圖像編碼器表徵集成到語言模型中）</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="mixtral-8x7b">mixtral-8x7b（是一種具有開放權重的稀疏專家混合模型）</td>
+                                    <td>0.35</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1">tts-1（OpenAI TTS 的基本版本）</td>
+                                    <td>7.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1-hd">tts-1-hd（與 tts-1 類似，但更注重語音質量）</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td id="dall-e-3">dall-e-3（DALL-E 3 是 OpenAI 發布的一款文生成圖 AI 系統）</td>
+                                    <td>20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                sectionHeader22: "HorseGPT API 介面的地址是什麼",
+                sectionContent22: '請參考<a href="https://gpt.nu.ac.cn/guide">使用指南</a>。',
+                sectionHeader23: "帳戶額度足夠為什麼提示額度不足",
+                sectionContent23: '帳戶額度與令牌額度不是一個東西，請確認帳戶及令牌的情況。',
+                footerLink1: '使用方法',
+                footerLink2: '使用條款',
+                footerLink3: 'HorseGPT API',
+                footerLink4: 'HorseGPT Chat',
+                footerLink5: '服務狀態'
+            },
+            'en': {
+				title: "<span>HorseGPT</span> Terms of Use",
+				sectionContent1: 'According to the <strong>"Interim Measures for the Administration of Generative Artificial Intelligence Services,"</strong> users in the PRC should use domestic large models and refrain from engaging in illegal activities. The service servers are located in Japan, with load balancing servers in the United States. Please comply with the laws and regulations of your location and relevant regions.',
+				title1: "Services Provided",
+				sectionHeader2: "HorseGPT",
+				sectionContent2: 'Includes the self-trained large language model HorseGPT, as well as various open-source large models that have been further trained and optimized, such as Llama, Llava, etc.',
+				sectionHeader3: "HorseGPT API",
+				sectionContent3: 'Provides API services for multiple large models, as well as user panels, token issuance, and other services to allow users to control AI usage.',
+				sectionHeader4: "API Forwarding and Acceleration Services",
+				sectionContent4: 'Provided by Cloudflare, enabling fast access to our APIs in most countries around the world.',
+				sectionHeader5: "HorseGPT Chat",
+				sectionContent5: 'Provides basic chat, text generation, and AI usage services through API access. HorseGPT Chat requires a password or HorseGPT API token for access.',
+				sectionHeader6: "HorseGPT Project Website and Documentation",
+				sectionContent6: 'Provides reference for users.',
+				title2: "Notice",
+				sectionContent7: 'By accessing and using any services/websites of the HorseGPT project, you acknowledge and agree to the following terms:',
+				sectionContent8: 'The purpose of this project’s services is for testing. The content generated is sourced from open-source models/datasets, subject to the terms of use of the respective models/datasets. This project does not constitute redistribution of these models and is not responsible for the accuracy of the generated content.',
+				sectionContent9: 'Some of the API forwarding services provided by this project are intended for internal testing. We will selectively screen users to participate in the test and help the development of various open-source AI projects within a limited scope.',
+				sectionContent10: 'This project balances the load across servers in multiple countries to ensure long-term operation of the service. However, the project makes no guarantee on the availability of the service due to the testing purpose.',
+				sectionContent11: 'This project is based on several open-source projects, including Open-webui, One-API, etc. You can visit the respective project homepages to review their agreements and terms of use. We will open the source code for use according to the agreement in the repository.',
+				sectionContent12: 'The various costs generated by this project are considered donations to the project developers. We will use these donations prudently and contribute to the open-source community. Any fees associated with the project are voluntary and do not correspond to any specific AI services or products. The project reserves the right to provide more testing content based on user donations to the developers.',
+				sectionContent13: 'For users who abuse, damage, or disrupt the normal operation of the project, the project has the right to restrict their usage and take legal actions if necessary.',
+				sectionContent14: 'The developers of this project have the final interpretation rights for the above statements. Any changes to the services and products will be based on the developers’ announcements.',
+				title3: "Privacy Statement",
+				title4: "Frequently Asked Questions",
+				sectionContent15: 'This project does not collect any personal information during your usage, including account, password, personal information, interaction content, etc.',
+				sectionContent16: 'Most of the code of this project is open access. You can refer to the content in the repository to assess the security of the service. HorseGPT project developers have not included any functionality in the website/program/service to collect personal information.',                
+				sectionHeader17: "How do I register and use the service?",
+				sectionContent17: 'Please refer to the <a href="https://gpt.nu.ac.cn/guide">User Guide</a>.',
+				sectionHeader18: "I cannot obtain a redemption code or recharge in the HorseGPT API system",
+				sectionContent18: 'Due to testing limitations and legal restrictions in certain regions, stable channels for obtaining redemption codes have not been opened. You can <a href="mailto:admin@nu.ac.cn">email us: admin@nu.ac.cn</a> for more information.',
+				sectionHeader19: "I cannot use my token in HorseGPT Chat",
+				sectionContent19: 'Please confirm the availability of your balance and token. Make sure the token you input in HorseGPT Chat is correct and entered in the correct field.',
+				sectionHeader20: "I encountered an error while using the API service / HorseGPT Chat",
+				sectionContent20: 'If it is a website or system issue, please submit a ticket via <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">this link</a>. If AI responds with errors like 400, 403, or upstream channel errors, it is due to upstream channel limits. Please try again later. If the issue persists or recurs, please contact us promptly through <a href="mailto:admin@nu.ac.cn">email: admin@nu.ac.cn</a> or via <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u">this ticket link</a>.',
+				sectionHeader21: "How much does the HorseGPT API charge for different models?",
+                sectionContent21: `
+                    The following prices are in multiplier units. The model multiplier is an indicator that shows the price difference between different models. Based on $0.002, for example, the official price of the 3.5 model is $0.0015/1000 tokens, so its multiplier is 0.75 (0.0015 divided by 0.002). The official price of the 4.0 model is $0.03/1000 tokens, so its multiplier is 15 (0.03 divided by 0.002). This multiplier clearly shows the cost ratio of different models.
+                    <div class="table-container">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th id="model-name">Model Name</th>
+                                    <th id="multiplier">Multiplier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="claude-3-5-haiku2">claude-3-5-haiku2 (Claude is a series of advanced large language models developed by Anthropic)</td>
+                                    <td>0.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-3.5-turbo">gpt-3.5-turbo (A natural language processing model launched by OpenAI)</td>
+                                    <td>0.25</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o">gpt-4o (A multimodal model with the same level of intelligence as GPT-4, but faster)</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="gpt-4o-mini">gpt-4o-mini (A smaller variant of GPT-4 from OpenAI)</td>
+                                    <td>0.075</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b">llama-3.1-70b (A large-scale language model developed by Meta)</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-1-70b-versatile">llama-3.1-70b-versatile (A versatile model capable of handling various tasks)</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-text-preview">llama-3.2-90b-text-preview (A model with 9 billion parameters, a text preview version developed by Meta)</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="llama-3-2-90b-vision-preview">llama-3.2-90b-vision-preview (The first batch of Llama models supporting vision tasks)</td>
+                                    <td>0.295</td>
+                                </tr>
+                                <tr>
+                                    <td id="mixtral-8x7b">mixtral-8x7b (A sparse expert mixture model with open weights)</td>
+                                    <td>0.35</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1">tts-1 (Basic version of OpenAI's TTS)</td>
+                                    <td>7.5</td>
+                                </tr>
+                                <tr>
+                                    <td id="tts-1-hd">tts-1-hd (Similar to tts-1 but with better speech quality)</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td id="dall-e-3">dall-e-3 (A text-to-image AI system released by OpenAI)</td>
+                                    <td>20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                sectionHeader22: "What is the API endpoint for HorseGPT?",
+                sectionContent22: 'Please refer to the <a href="https://gpt.nu.ac.cn/guide">User Guide</a>.',
+                sectionHeader23: "Why does it say insufficient quota when my account has enough balance?",
+                sectionContent23: 'Account quota and token quota are different. Please check both account and token status.',
+                footerLink1: 'Usage Guide',
+                footerLink2: 'Terms of Service',
+                footerLink3: 'HorseGPT API',
+                footerLink4: 'HorseGPT Chat',
+                footerLink5: 'Service Status'
+            }
+        };
+
+        // 根据语言切换页面内容
+        if (languageContent[lang]) {
+		
+			document.getElementById("title").innerHTML = languageContent[lang].title;
+			document.getElementById("sectionContent1").innerHTML = languageContent[lang].sectionContent1;
+			document.getElementById("title1").innerHTML = languageContent[lang].title1;
+			document.getElementById("sectionHeader2").innerHTML = languageContent[lang].sectionHeader2;
+			document.getElementById("sectionContent2").innerHTML = languageContent[lang].sectionContent2;
+			document.getElementById("sectionHeader3").innerHTML = languageContent[lang].sectionHeader3;
+			document.getElementById("sectionContent3").innerHTML = languageContent[lang].sectionContent3;
+			document.getElementById("sectionHeader4").innerHTML = languageContent[lang].sectionHeader4;
+			document.getElementById("sectionContent4").innerHTML = languageContent[lang].sectionContent4;
+			document.getElementById("sectionHeader5").innerHTML = languageContent[lang].sectionHeader5;
+			document.getElementById("sectionContent5").innerHTML = languageContent[lang].sectionContent5;
+			document.getElementById("sectionHeader6").innerHTML = languageContent[lang].sectionHeader6;
+			document.getElementById("sectionContent6").innerHTML = languageContent[lang].sectionContent6;
+			document.getElementById("title2").innerText = languageContent[lang].title2;
+			document.getElementById("sectionContent7").innerHTML = languageContent[lang].sectionContent7;
+			document.getElementById("sectionContent8").innerHTML = languageContent[lang].sectionContent8;
+			document.getElementById("sectionContent9").innerHTML = languageContent[lang].sectionContent9;
+			document.getElementById("sectionContent10").innerHTML = languageContent[lang].sectionContent10;
+			document.getElementById("sectionContent11").innerHTML = languageContent[lang].sectionContent11;
+			document.getElementById("sectionContent12").innerHTML = languageContent[lang].sectionContent12;
+			document.getElementById("sectionContent13").innerHTML = languageContent[lang].sectionContent13;
+			document.getElementById("sectionContent14").innerHTML = languageContent[lang].sectionContent14;
+			document.getElementById("title3").innerText = languageContent[lang].title3;
+			document.getElementById("sectionContent15").innerHTML = languageContent[lang].sectionContent15;
+			document.getElementById("sectionContent16").innerHTML = languageContent[lang].sectionContent16;
+	
+	
+			document.getElementById("title4").innerText = languageContent[lang].title4;
+			document.getElementById("sectionHeader17").innerText = languageContent[lang].sectionHeader17;
+			document.getElementById("sectionContent17").innerHTML = languageContent[lang].sectionContent17;
+			document.getElementById("sectionHeader18").innerText = languageContent[lang].sectionHeader18;
+			document.getElementById("sectionContent18").innerHTML = languageContent[lang].sectionContent18;
+			document.getElementById("sectionHeader19").innerText = languageContent[lang].sectionHeader19;
+			document.getElementById("sectionContent19").innerHTML = languageContent[lang].sectionContent19;
+			document.getElementById("sectionHeader20").innerText = 	languageContent[lang].sectionHeader20;
+			document.getElementById("sectionContent20").innerHTML = languageContent[lang].sectionContent20;
+
+		
+            document.getElementById("sectionHeader21").innerText = languageContent[lang].sectionHeader21;
+            document.getElementById("sectionContent21").innerHTML = languageContent[lang].sectionContent21;
+            document.getElementById("sectionHeader22").innerText = languageContent[lang].sectionHeader22;
+            document.getElementById("sectionContent22").innerHTML = languageContent[lang].sectionContent22;
+            document.getElementById("sectionHeader23").innerText = languageContent[lang].sectionHeader23;
+            document.getElementById("sectionContent23").innerHTML = languageContent[lang].sectionContent23;
+            document.getElementById("footerLink1").innerText = languageContent[lang].footerLink1;
+            document.getElementById("footerLink2").innerText = languageContent[lang].footerLink2;
+            document.getElementById("footerLink3").innerText = languageContent[lang].footerLink3;
+            document.getElementById("footerLink4").innerText = languageContent[lang].footerLink4;
+            document.getElementById("footerLink5").innerText = languageContent[lang].footerLink5;
+        }
+    });
+
+
+
+     
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // 检查是否是移动设备
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            // 移动端：跟随系统主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // 初始设置
+            if (prefersDark.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            
+            // 监听系统主题变化
+            prefersDark.addEventListener('change', (e) => {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            });
+        } else {
+            // 桌面端：保持原有的手动切换逻辑
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeToggle.textContent = savedTheme === 'dark' ? '🌞' : '🌓';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '🌞' : '🌓';
+            });
+
+            // 检查系统主题偏好（仅在首次访问时）
+            if (!savedTheme) {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌞';
+                }
+            }
+        }
+    </script>	
+
+    </div>
+</body>
