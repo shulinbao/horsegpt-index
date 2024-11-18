@@ -547,7 +547,18 @@
 
         // 获取用户语言
         const userLang = navigator.language || navigator.userLanguage; 
-        const language = userLang.startsWith('zh') ? (userLang.startsWith('zh-TW') ? 'zh_TW' : 'zh') : (userLang.startsWith('en') ? 'en' : 'zh'); // 判断语言环境
+
+        // 根据语言环境设置语言
+        let language;
+        if (userLang.startsWith('zh-HK') || userLang.startsWith('zh-MO') || userLang.startsWith('zh-TW')) {
+        language = 'zh_TW'; // 繁体中文
+        } else if (userLang.startsWith('zh')) {
+            language = 'zh'; // 简体中文
+        } else if (userLang.startsWith('en')) {
+            language = 'en'; // 英文
+        } else {
+            language = 'en'; // 默认英文
+        }
 
         // 设置页面文本
         document.getElementById('main-title').innerHTML = languages[language].mainTitle;
