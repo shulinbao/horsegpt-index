@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>HorseGPT - 开放的AI平台项目</title>
+    <meta name="description" content="HorseGPT - 开放的AI平台项目。本项目提供OpenAI、Meta等主流AI服务接口，并提供AI模型的使用服务。">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
+            --text: #1a1a1a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(255, 243, 212, 0.4);
+            --search-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #1a1a1a 0%, #2d2d2d 100%);
+            --text: #ffffff;
+            --card-bg: rgba(40, 40, 40, 0.8);
+            --card-hover: rgba(60, 60, 60, 0.4);
+            --search-bg: rgba(40, 40, 40, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:  "Noto Sans", "SF Pro SC", "SF Pro Text", "SF Pro Icons",
+    "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            animation: fadeInDown 1s ease;
+            position: relative;
+        }
+
+        .title .gradient-text {
+            background: linear-gradient(
+                135deg,
+                rgb(0, 123, 255) 0%,
+                rgb(0, 113, 245) 30%,
+                rgb(0, 103, 235) 50%,
+                rgb(0, 93, 225) 70%,
+                rgb(230, 247, 255) 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: 0px 2px 10px rgba(0, 123, 255, 0.2);
+            animation: gradientMove 8s ease infinite;
+        }
+
+        .title .gradient-text::after {
+            content: 'HorseGPT';
+            position: absolute;
+            left: 0;
+            top: 0;
+            filter: blur(20px);
+            opacity: 0.3;
+            background: inherit;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            z-index: -1;
+        }
+
+        .subtitle {
+            margin-bottom: 3.5rem;
+            font-size: 1.2rem;
+            animation: fadeIn 1s ease 0.3s both;
+            line-height: 1.6;
+            font-weight: 500;
+            background: linear-gradient(to right, rgb(0, 123, 255), rgb(10, 133, 255));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .search-container {
+            background: var(--search-bg);
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 
+                0 10px 30px rgba(0, 123, 255, 0.05),
+                0 1px 8px rgba(0, 123, 255, 0.02),
+                0 0 0 1px rgba(0, 123, 255, 0.03);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-container:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 123, 255, 0.08),
+                0 1px 10px rgba(0, 123, 255, 0.02),
+                0 0 0 1px rgba(0, 123, 255, 0.03);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .placeholder-animation {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: rgba(0, 123, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .placeholder-text {
+            display: block;
+            animation: slideUpIn 0.5s ease forwards;
+        }
+
+        .placeholder-text.slideOut {
+            animation: slideUpOut 0.5s ease forwards;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 100%;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            border: none;
+            background: transparent;
+            color: rgb(0, 123, 255);
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: transparent;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, rgb(0, 123, 255) 0%, rgb(10, 133, 255) 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: linear-gradient(135deg, rgb(0, 113, 245) 0%, rgb(0, 123, 255) 100%);
+            transform: translateY(-50%) scale(1.02);
+        }
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease 0.9s both;
+        }
+
+        .example-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 123, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
+        }
+
+        .example-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgb(0, 123, 255);
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: rgb(0, 123, 255);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-desc {
+            font-size: 0.9rem;
+            color: rgba(0, 123, 255, 0.8);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .title-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        .title-wrapper::before,
+        .title-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgb(0, 123, 255);
+            top: 50%;
+            transform: translateY(-50%);
+            animation: pulse 2s infinite;
+        }
+
+        .title-wrapper::before {
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .title-wrapper::after {
+            right: 0;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50%) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpIn {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUpOut {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .title .gradient-text:hover {
+            animation: rubberBand 1s ease;
+        }
+
+        @keyframes rubberBand {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            40% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            65% { transform: scale(0.98); }
+            75% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .footer-links {
+            margin-top: 3rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgb(0, 123, 255);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: rgb(0, 123, 255);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            background: rgba(230, 247, 255, 0.4);
+        }
+
+        .footer-link:hover::after {
+            width: 80%;
+        }
+
+        .footer-divider {
+            color: rgb(82, 165, 255);
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                gap: 0.5rem;
+            }
+            
+            .footer-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 添加主题切换按钮样式 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* 添加移动端媒体查询 */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title-wrapper">
+            <h1 class="title" id="main-title">🐴 问 <span class="gradient-text">HorseGPT</span> 任何东西</h1>
+        </div>
+        <p class="subtitle" id="subtitle">开放的 AI 一站式平台</p>
+        
+        <div class="search-wrapper">
+            <form id="searchForm" action="https://chat.nu.ac.cn/#/chat" method="get">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <div class="placeholder-animation" id="placeholderAnimation">
+                             <span class="placeholder-text" id="placeholder-text">解释一下这段代码的意思...</span>
+                        </div>
+                        <input type="text" 
+                               id="searchInput"
+                               name="submit" 
+                               class="search-input"
+                               autocomplete="off">
+                    </div>
+                    <button type="submit" class="search-button" id="search-button">
+                        问问 HorseGPT
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="examples">
+            <div class="example-card floating" id="example-card-1">
+                <div class="example-icon">🚀</div>
+                <div class="example-title" id="example-title-1">编写代码</div>
+                <div class="example-desc" id="example-desc-1">提高编程效率</div>
+            </div>
+            <div class="example-card floating" style="animation-delay: 1s;" id="example-card-2">
+                <div class="example-icon">💡</div>
+                <div class="example-title" id="example-title-2">创意灵感</div>
+                <div class="example-desc" id="example-desc-2">激发无限创意</div>
+            </div>
+            <div class="example-card floating" style="animation-delay: 2s;" id="example-card-3">
+                <div class="example-icon">📚</div>
+                <div class="example-title" id="example-title-3">学习知识</div>
+                <div class="example-desc" id="example-desc-3">提升学习效率</div>
+            </div>
+        </div>
+        <div class="footer-links animate__animated animate__fadeIn" style="animation-delay: 1.2s;">
+            <a href="https://gpt.nu.ac.cn/guide" class="footer-link" id="footer-link-1">使用方法</a>
+            <span class="footer-divider">•</span>
+            <a href="https://gpt.nu.ac.cn/faq" class="footer-link" id="footer-link-2">使用条款</a>
+            <span class="footer-divider">•</span>
+            <a href="https://oneapi.nu.ac.cn/" class="footer-link" id="footer-link-3">HorseGPT API</a>
+            <span class="footer-divider">•</span>
+            <a href="https://chat.nu.ac.cn/" class="footer-link" id="footer-link-4">HorseGPT Chat</a>
+            <span class="footer-divider">•</span>
+            <a href="https://status.nu.ac.cn/" class="footer-link" id="footer-link-5">服务状态</a>
+        </div>
+    </div>
+
+    <script>
+        // 语言支持
+        const languages = {
+            zh: {
+                mainTitle: "🐴 问 <span class='gradient-text'>HorseGPT</span> 任何东西",
+                subtitle: "开放的 AI 一站式平台",
+                placeholderText: "解释一下这段代码的意思...",
+                searchButton: "问问 HorseGPT",
+                exampleTitle1: "编写代码",
+                exampleDesc1: "提高编程效率",
+                exampleTitle2: "创意灵感",
+                exampleDesc2: "激发无限创意",
+                exampleTitle3: "学习知识",
+                exampleDesc3: "提升学习效率",
+                footerLink1: "使用方法",
+                footerLink2: "使用条款",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "服务状态"
+            },
+            en: {
+                mainTitle: "🐴 Ask <span class='gradient-text'>HorseGPT</span> Anything",
+                subtitle: "Open AI One-stop Platform",
+                placeholderText: "Explain what this code means...",
+                searchButton: "Ask HorseGPT",
+                exampleTitle1: "Write Code",
+                exampleDesc1: "Improve coding efficiency",
+                exampleTitle2: "Creative Ideas",
+                exampleDesc2: "Spark infinite creativity",
+                exampleTitle3: "Learn Knowledge",
+                exampleDesc3: "Enhance learning efficiency",
+                footerLink1: "How to Use",
+                footerLink2: "Terms of Use",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "Service Status"
+            },
+            zh_TW: {  // 繁体中文支持
+                mainTitle: "🐴 問 <span class='gradient-text'>HorseGPT</span> 任何東西",
+                subtitle: "開放的 AI 一站式平台",
+                placeholderText: "解釋一下這段程式碼的意思...",
+                searchButton: "問問 HorseGPT",
+                exampleTitle1: "編寫程式碼",
+                exampleDesc1: "提高編程效率",
+                exampleTitle2: "創意靈感",
+                exampleDesc2: "激發無限創意",
+                exampleTitle3: "學習知識",
+                exampleDesc3: "提升學習效率",
+                footerLink1: "使用方法",
+                footerLink2: "使用條款",
+                footerLink3: "HorseGPT API",
+                footerLink4: "HorseGPT Chat",
+                footerLink5: "服務狀態"
+            }
+        };
+        
+        // 获取用户语言
+        const userLang = navigator.language || navigator.userLanguage; 
+
+        // 根据语言环境设置语言
+        let language;
+        if (userLang.startsWith('zh-HK') || userLang.startsWith('zh-MO') || userLang.startsWith('zh-TW')) {
+            language = 'zh_TW'; // 繁体中文
+        } else if (userLang.startsWith('zh')) {
+            language = 'zh'; // 简体中文
+        } else if (userLang.startsWith('en')) {
+            language = 'en'; // 英文
+        } else {
+            language = 'en'; // 默认英文
+        }
+
+        const links = {
+            zh: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=帮我用Python写一个个人网站",  // 编写代码的链接
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=复述这个消息：欢迎使用HorseGPT，很高兴能成为你的创意助手，你可以使用面具实现各种功能哦!", // 创意灵感的链接
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告诉我一个有趣的历史知识" // 学习知识的链接
+            },
+            en: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=Help%20me%20write%20a%20personal%20website%20using%20Python",
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=Paraphrase%20this%20message%3A%20Welcome%20to%20HorseGPT%2C%20we%20are%20excited%20to%20be%20your%20creative%20assistant.%20You%20can%20use%20the%20mask%20to%20access%20various%20features%21",
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=Tell%20me%20an%20interesting%20piece%20of%20historical%20knowledge"
+            },
+            zh_TW: {
+                "example-card-1": "https://chat.nu.ac.cn/#/chat?submit=幫我用Python寫一個個人網站",
+                "example-card-2": "https://chat.nu.ac.cn/#/chat?submit=復述這個消息%EF%BC%9A歡迎使用HorseGPT%EF%BC%8C很高興能成為你的創意助手%EF%BC%8C你可以使用面具實現各種功能哦%21",
+                "example-card-3": "https://chat.nu.ac.cn/#/chat?submit=告訴我一個有趣的歷史知識"
+            }
+        };
+
+        // 根据用户语言选择链接
+        let languageLinks = links[language]; 
+
+        // 设置页面文本和卡片点击事件
+        document.getElementById('example-card-1').onclick = function() {
+            window.location.href = languageLinks["example-card-1"];
+        };
+        document.getElementById('example-card-2').onclick = function() {
+            window.location.href = languageLinks["example-card-2"];
+        };
+        document.getElementById('example-card-3').onclick = function() {
+            window.location.href = languageLinks["example-card-3"];
+        };
+        
+        // 设置页面文本
+        document.getElementById('main-title').innerHTML = languages[language].mainTitle;
+        document.getElementById('subtitle').innerHTML = languages[language].subtitle;
+        document.getElementById('placeholder-text').innerHTML = languages[language].placeholderText;
+        document.getElementById('search-button').innerHTML = languages[language].searchButton;
+        document.getElementById('example-title-1').innerHTML = languages[language].exampleTitle1;
+        document.getElementById('example-desc-1').innerHTML = languages[language].exampleDesc1;
+        document.getElementById('example-title-2').innerHTML = languages[language].exampleTitle2;
+        document.getElementById('example-desc-2').innerHTML = languages[language].exampleDesc2;
+        document.getElementById('example-title-3').innerHTML = languages[language].exampleTitle3;
+        document.getElementById('example-desc-3').innerHTML = languages[language].exampleDesc3;
+        document.getElementById('footer-link-1').innerHTML = languages[language].footerLink1;
+        document.getElementById('footer-link-2').innerHTML = languages[language].footerLink2;
+        document.getElementById('footer-link-3').innerHTML = languages[language].footerLink3;
+        document.getElementById('footer-link-4').innerHTML = languages[language].footerLink4;
+        document.getElementById('footer-link-5').innerHTML = languages[language].footerLink5;
+
+        
+        const placeholders = {
+            "zh": [
+                "今天晚上吃什么...",
+                "学习Python应该怎么学...",
+                "最近的大事件...",
+                "图片里面的内容是...",
+                "阅读一下这个文件的内容...",
+                "帮我分析一下这段代码...",
+                "如何提高编程能力...",
+                "推荐几本编程书籍...",
+                "帮我解释这个错误信息...",
+                "这周末去哪里玩比较好..."
+                ],
+            "en": [
+                "What to eat tonight...",
+                "How to learn Python...",
+                "Recent major events...",
+                "What's in the picture...",
+                "Read the content of this file...",
+                "Help me analyze this code...",
+                "How to improve programming skills...",
+                "Recommend some programming books...",
+                "Help me explain this error message...",
+                "Where to go this weekend..."
+            ],
+            "zh_TW": [  // 繁体中文占位符
+                "今晚吃什麼...",
+                "學習Python應該怎麼學...",
+                "最近的大事件...",
+                "圖片裡面的內容是...",
+                "閱讀一下這個文件的內容...",
+                "幫我分析一下這段程式碼...",
+                "如何提高程式編寫能力...",
+                "推薦幾本程式編寫書籍...",
+                "幫我解釋這個錯誤訊息...",
+                "這週末去哪裡玩比較好..."
+            ]
+        };
+        
+        let currentIndex = 0;
+        const placeholderAnimation = document.getElementById('placeholderAnimation');
+        const searchInput = document.getElementById('searchInput');
+        let isInputFocused = false;
+        let animationTimeout;
+
+        const currentPlaceholders = placeholders[language];
+        
+        function updatePlaceholder() {
+            if (isInputFocused || searchInput.value) return;
+
+            const currentPlaceholder = placeholderAnimation.querySelector('.placeholder-text');
+            currentPlaceholder.classList.add('slideOut');
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % currentPlaceholders.length;
+                placeholderAnimation.innerHTML = `<span class="placeholder-text">${currentPlaceholders[currentIndex]}</span>`;
+            }, 250);
+        }
+
+        function startPlaceholderAnimation() {
+            if (!isInputFocused && !searchInput.value) {
+                animationTimeout = setInterval(updatePlaceholder, 1500);
+            }
+        }
+
+        function stopPlaceholderAnimation() {
+            clearInterval(animationTimeout);
+        }
+
+        searchInput.addEventListener('focus', () => {
+            isInputFocused = true;
+            placeholderAnimation.style.opacity = '0';
+            stopPlaceholderAnimation();
+        });
+
+        searchInput.addEventListener('blur', () => {
+            isInputFocused = false;
+            if (!searchInput.value) {
+                placeholderAnimation.style.opacity = '1';
+                startPlaceholderAnimation();
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value) {
+                placeholderAnimation.style.opacity = '0';
+                stopPlaceholderAnimation();
+            } else if (!isInputFocused) {
+                placeholderAnimation.style.opacity = '1';
+                startPlaceholderAnimation();
+            }
+        });
+
+        // 初始化
+        startPlaceholderAnimation();
+        
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // 检查是否是移动设备
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            // 移动端：跟随系统主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // 初始设置
+            if (prefersDark.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            
+            // 监听系统主题变化
+            prefersDark.addEventListener('change', (e) => {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            });
+        } else {
+            // 桌面端：保持原有的手动切换逻辑
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeToggle.textContent = savedTheme === 'dark' ? '🌞' : '🌓';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '🌞' : '🌓';
+            });
+
+            // 检查系统主题偏好（仅在首次访问时）
+            if (!savedTheme) {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌞';
+                }
+            }
+        }
+                document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // 阻止表单默认的提交行为
+
+            var inputVal = document.getElementById('searchInput').value;
+            var targetUrl = 'https://chat.nu.ac.cn/#/chat?submit=' + encodeURIComponent(inputVal);  // 构建目标 URL
+
+            window.location.href = targetUrl;  // 跳转到构建的 URL
+        });
+    </script>
+</body>
+</html>
