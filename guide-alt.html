@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>如何使用 HorseGPT</title>
+    <meta name="description" content="如何使用HorseGPT，为您的AI服务提供支持。包括注册、充值、获取令牌等流程。">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
+            --text: #1a1a1a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(255, 243, 212, 0.4);
+            --search-bg: rgba(255, 255, 255, 0.95);
+        }
+		
+		[data-theme="dark"] {
+            --primary: rgb(0, 123, 255);
+            --second: rgb(230, 247, 255);
+            --bg: linear-gradient(120deg, #1a1a1a 0%, #2d2d2d 100%);
+            --text: #ffffff;
+            --card-bg: rgba(40, 40, 40, 0.8);
+            --card-hover: rgba(60, 60, 60, 0.4);
+            --search-bg: rgba(40, 40, 40, 0.95);
+        }
+		
+	        /* 添加主题切换按钮样式 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }	
+		
+		
+		
+		
+		
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+			flex-direction: column; /* 确保内容和 footer 垂直排列 */
+			justify-content: space-between; /* 保证内容和 footer 分开，footer 固定在底部 */
+            padding: 20px;
+            font-family:  "Noto Sans", "SF Pro SC", "SF Pro Text", "SF Pro Icons",
+    "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 0.75rem; /* 更小的字体 */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .title {
+            font-size: 1.75rem; /* 更小的标题字体 */
+            color: var(--text); /* 标题默认黑色 */
+            margin-bottom: 4rem;
+            font-weight: 800;
+            text-align: center;
+            animation: fadeInDown 1s ease;
+        }
+
+        .title span {
+            background: linear-gradient(
+                135deg,
+                rgb(0, 123, 255) 0%,
+                rgb(0, 113, 245) 30%,
+                rgb(0, 103, 235) 50%,
+                rgb(0, 93, 225) 70%,
+                rgb(230, 247, 255) 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: 0px 2px 10px rgba(0, 123, 255, 0.2);
+            animation: gradientMove 8s ease infinite;
+        }
+
+        .step {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.25rem; /* 缩小内边距 */
+            margin-bottom: 1.5rem; /* 缩小步骤间距 */
+			margin-top: 2rem; /* Add extra margin here */
+			backdrop-filter: blur(10px);
+            box-shadow: 1px solid rgba(0, 123, 255, 0.1);
+            transition: transform 0.3s ease;
+			animation: fadeIn 1s ease 0.9s both;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-header {
+            font-size: 1.25rem; /* 更小的步骤标题字体 */
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            font-size: 0.85rem; /* 更小的内容字体 */
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .step a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .step a:hover {
+            color: rgb(0, 103, 255);
+        }
+
+        .note {
+            font-size: 0.85rem; /* 更小的字体 */
+            color: red;
+            font-weight: 600;
+        }
+		
+		
+        .footer-links {
+            margin-top: 3rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgb(0, 123, 255);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: rgb(0, 123, 255);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            background: rgba(230, 247, 255, 0.4);
+        }
+
+        .footer-link:hover::after {
+            width: 80%;
+        }
+
+        .footer-divider {
+            color: rgb(82, 165, 255);
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .footer-links {
+                gap: 0.5rem;
+            }
+            
+            .footer-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+		
+		
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title" data-lang="title">如何使用 <span>HorseGPT</span></h1>
+
+        <div class="step">
+            <div class="step-header" data-lang="step1header">1. 获取API服务</div>
+            <div class="step-description" data-lang="step1description">
+				首先，您需要一个API服务，API服务将会提供各种AI模型的接口，包括gpt-4o、llama3.2等知名的模型。HorseGPT API为本项目提供了API支持，您可以前往
+                <a href="https://oneapi.nu.ac.cn/login" target="_blank">注册HorseGPT账号</a>。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step2header">2. 注册并充值账号</div>
+            <div class="step-description" data-lang="step2description">
+                注册完成之后，您需要充值账号，确保账号余额充足。请在HorseGPT API系统的左侧列表中点击
+                <a href="https://oneapi.nu.ac.cn/topup" target="_blank">充值</a>，并输入兑换码，即可为您的账号添加余额。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step3header">3. 获取令牌</div>
+            <div class="step-description" data-lang="step3description">
+                账户有余额时，您可以点击HorseGPT API系统的左侧列表中的
+                <a href="https://oneapi.nu.ac.cn/token" target="_blank">令牌</a>，点击“添加令牌”，并输入名称（随意）、过期时间（不了解可填写“永不过期”）、额度（等价金额小于余额，或点击下方“无限额度”）、新建数量（不了解请保持默认：1），点击确认，即可获得自己的令牌。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step4header">4. 使用令牌</div>
+            <div class="step-description" data-lang="step4description">
+                令牌可以在任何支持OpenAI格式的网站/软件中使用，包括知识库、翻译软件、机器人等。API地址为
+                <a href="https://oneapi.nu.ac.cn" target="_blank">https://oneapi.nu.ac.cn</a>。密钥即为刚刚获取的令牌。
+                <div class="note">请注意：只要有令牌便能使用令牌额度中的余额，请不要随意分享令牌。</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step5header">5. 使用HorseGPT Chat</div>
+            <div class="step-description" data-lang="step5description">
+                您也可以直接使用我们HorseGPT项目提供的聊天服务（HorseGPT Chat），输入令牌后即可开始您的AI使用之旅。点击
+                <a href="https://chat.nu.ac.cn/#/auth" target="_blank">这里访问HorseGPT Chat</a>。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step6header">6. 安装PWA应用</div>
+            <div class="step-description" data-lang="step6description">
+                HorseGPT Chat支持PWA应用安装，您可以在iPhone、安卓手机上通过“保存到桌面”的方式安装并使用此APP。如果令牌额度用完，您可以在
+                <a href="https://oneapi.nu.ac.cn" target="_blank">HorseGPT API系统</a>中重新生成令牌，或在
+                <a href="https://oneapi.nu.ac.cn/topup" target="_blank">充值</a>页面填写兑换码充值。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header" data-lang="step7header">7. 联系我们</div>
+            <div class="step-description" data-lang="step7description">
+                如有使用问题，您可以通过
+                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u" target="_blank">表单</a>
+                联系我们，或提供反馈意见。
+            </div>
+        </div>
+    </div>
+	
+	<div class="footer-links animate__animated animate__fadeIn" style="animation-delay: 1.2s;">
+		<a href="https://gpt.nu.ac.cn/guide" class="footer-link" id="footer-link-1">使用方法</a>
+        <span class="footer-divider">•</span>
+        <a href="https://gpt.nu.ac.cn/faq" class="footer-link" id="footer-link-2">使用条款</a>
+        <span class="footer-divider">•</span>
+        <a href="https://oneapi.nu.ac.cn/" class="footer-link" id="footer-link-3">HorseGPT API</a>
+        <span class="footer-divider">•</span>
+        <a href="https://chat.nu.ac.cn/" class="footer-link" id="footer-link-4">HorseGPT Chat</a>
+        <span class="footer-divider">•</span>
+        <a href="https://status.nu.ac.cn/" class="footer-link" id="footer-link-5">服务状态</a>
+    </div>
+	
+	
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		const userLang = navigator.language || navigator.userLanguage;
+
+		// Language content object
+		const languageContent = {
+			'en': {
+				title: "How to use <span>HorseGPT</span>",
+				step1header: "1. Get API service",
+				step1description: "First, you need an API service that provides interfaces for various AI models, including popular models like gpt-4o, llama3.2, etc. HorseGPT API provides support for this project. You can register for a HorseGPT account at <a href='https://oneapi.nu.ac.cn/login' target='_blank'>here</a>.",
+				step2header: "2. Register and top-up account",
+				step2description: "After registration, you need to top up your account to ensure sufficient balance. Click <a href='https://oneapi.nu.ac.cn/topup' target='_blank'>Top-up</a> in the left list of the HorseGPT API system and enter the voucher code to add balance to your account.",
+				step3header: "3. Get token",
+				step3description: "When your account has balance, you can click <a href='https://oneapi.nu.ac.cn/token' target='_blank'>Token</a> in the left list of the HorseGPT API system, click 'Add Token', and fill in a name (any name), expiration time (you can write 'never expire'), limit (equivalent amount less than balance, or click 'Unlimited Limit'), and the number of new tokens (keep the default as 1). Then click confirm to get your token.",
+				step4header: "4. Use token",
+				step4description: "Tokens can be used on any website or software that supports OpenAI formats, including knowledge bases, translation software, chatbots, etc. The API address is <a href='https://oneapi.nu.ac.cn' target='_blank'>https://oneapi.nu.ac.cn</a>. The key is the token you just obtained.",
+				step5header: "5. Use HorseGPT Chat",
+				step5description: "You can also directly use the HorseGPT Chat service provided by our project. After entering the token, you can start your AI journey. Click <a href='https://chat.nu.ac.cn/#/auth' target='_blank'>here to visit HorseGPT Chat</a>.",
+				step6header: "6. Install PWA app",
+				step6description: "HorseGPT Chat supports PWA app installation. You can install and use this app on iPhone or Android by using the 'Add to Home Screen' feature. If your token balance is used up, you can regenerate a token in the <a href='https://oneapi.nu.ac.cn' target='_blank'>HorseGPT API system</a>, or top-up on the <a href='https://oneapi.nu.ac.cn/topup' target='_blank'>Top-up</a> page.",
+				step7header: "7. Contact us",
+				step7description: "If you have any questions, you can contact us through this <a href='https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u' target='_blank'>form</a>, or provide feedback.",
+				'footer-link-1': 'How to Use',
+				'footer-link-2': 'Terms of Use',
+				'footer-link-3': 'HorseGPT API',
+				'footer-link-4': 'HorseGPT Chat',
+				'footer-link-5': 'Service Status'
+			},
+			'zh_TW': {
+				title: "如何使用 <span>HorseGPT</span>",
+				step1header: "1. 獲取API服務",
+				step1description: "首先，您需要一個API服務，該服務提供各種AI模型的接口，包括gpt-4o、llama3.2等知名模型。HorseGPT API為本項目提供支持，您可以在<a href='https://oneapi.nu.ac.cn/login' target='_blank'>此處註冊HorseGPT帳號</a>。",
+				step2header: "2. 註冊並充值帳號",
+				step2description: "註冊完成後，您需要充值帳號，確保帳戶有足夠的餘額。請在HorseGPT API系統的左側列表中點擊<a href='https://oneapi.nu.ac.cn/topup' target='_blank'>充值</a>，輸入兌換碼，即可為您的帳號充值。",
+				step3header: "3. 獲取令牌",
+				step3description: "當帳戶有餘額時，您可以點擊HorseGPT API系統左側列表中的<a href='https://oneapi.nu.ac.cn/token' target='_blank'>令牌</a>，點擊「添加令牌」，輸入名稱（可以隨意）、過期時間（如不瞭解可填寫「永不過期」）、額度（金額小於餘額，或點選「無限額度」）、新建數量（保持默認：1），點擊確認即可獲得令牌。",
+				step4header: "4. 使用令牌",
+				step4description: "您可以將令牌用於任何支持OpenAI格式的網站或軟體中，包括知識庫、翻譯軟體、聊天機器人等。API地址為<a href='https://oneapi.nu.ac.cn' target='_blank'>https://oneapi.nu.ac.cn</a>，令牌即為您剛剛獲得的令牌。",
+				step5header: "5. 使用HorseGPT Chat",
+				step5description: "您也可以直接使用我們項目提供的HorseGPT Chat服務。輸入令牌後，您就可以開始AI之旅。點擊<a href='https://chat.nu.ac.cn/#/auth' target='_blank'>這裡進入HorseGPT Chat</a>。",
+				step6header: "6. 安裝PWA應用程式",
+				step6description: "HorseGPT Chat支持PWA應用程式安裝。您可以使用「添加至主屏幕」功能，在iPhone或Android上安裝並使用此應用。如果您的令牌餘額用盡，您可以在<a href='https://oneapi.nu.ac.cn' target='_blank'>HorseGPT API系統</a>重新生成令牌，或在<a href='https://oneapi.nu.ac.cn/topup' target='_blank'>充值</a>頁面進行充值。",
+				step7header: "7. 聯繫我們",
+				step7description: "如有任何問題，您可以通過此<a href='https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u' target='_blank'>表單</a>聯繫我們，或提供反饋。",
+				'footer-link-1': '使用方法',
+				'footer-link-2': '使用條款',
+				'footer-link-3': 'HorseGPT API',
+				'footer-link-4': 'HorseGPT 聊天',
+				'footer-link-5': '服務狀態'
+			},
+			'zh': {
+				title: "如何使用 <span>HorseGPT</span>",
+				step1header: "1. 获取API服务",
+				step1description: "首先，您需要一个API服务，API服务将会提供各种AI模型的接口，包括gpt-4o、llama3.2等知名的模型。HorseGPT API为本项目提供了API支持，您可以前往<a href='https://oneapi.nu.ac.cn/login' target='_blank'>注册HorseGPT账号</a>。",
+				step2header: "2. 注册并充值账号",
+				step2description: "注册完成之后，您需要充值账号，确保账号余额充足。请在HorseGPT API系统的左侧列表中点击<a href='https://oneapi.nu.ac.cn/topup' target='_blank'>充值</a>，并输入兑换码，即可为您的账号添加余额。",
+				step3header: "3. 获取令牌",
+				step3description: "账户有余额时，您可以点击HorseGPT API系统的左侧列表中的<a href='https://oneapi.nu.ac.cn/token' target='_blank'>令牌</a>，点击“添加令牌”，并填写名称（可以随便填写）、过期时间（如果不了解可以写“永不过期”）、额度（可以选择额度小于余额的金额，或选择“无限额度”）、新增数量（默认选择1），然后点击确认，您就能获得令牌。",
+				step4header: "4. 使用令牌",
+				step4description: "令牌可以在任何支持OpenAI格式的网页或软件中使用，包括知识库、翻译软件、聊天机器人等。API地址为<a href='https://oneapi.nu.ac.cn' target='_blank'>https://oneapi.nu.ac.cn</a>，令牌就是您刚刚生成的令牌。<strong>请注意：只要有令牌便能使用令牌额度中的余额，请不要随意分享令牌。</strong>",
+				step5header: "5. 使用HorseGPT Chat",
+				step5description: "您还可以直接使用我们项目提供的HorseGPT Chat服务。输入令牌后，您即可开始AI之旅。点击<a href='https://chat.nu.ac.cn/#/auth' target='_blank'>这里访问HorseGPT Chat</a>。",
+				step6header: "6. 安装PWA应用",
+				step6description: "HorseGPT Chat支持PWA应用安装。您可以使用“添加到主屏幕”功能，将此应用安装在iPhone或Android手机上。如果您的令牌余额耗尽，可以在<a href='https://oneapi.nu.ac.cn' target='_blank'>HorseGPT API系统</a>重新生成令牌，或者在<a href='https://oneapi.nu.ac.cn/topup' target='_blank'>充值</a>页面进行充值。",
+				step7header: "7. 联系我们",
+				step7description: "如果有任何问题，您可以通过此<a href='https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAZ__u0kKspUM0E0Q05QR0U5TVRDVEFKQlFCUUszTVIzUS4u' target='_blank'>表单</a>联系我们，或者提供反馈。",
+				'footer-link-1': '使用方法',
+				'footer-link-2': '使用条款',
+				'footer-link-3': 'HorseGPT API',
+				'footer-link-4': 'HorseGPT 聊天',
+				'footer-link-5': '服务状态'
+			}
+		};
+
+
+		let language = 'en'; // Default to English
+		
+		// Check user's browser language and set the language accordingly
+		if (userLang.includes('zh-TW')) {
+			language = 'zh_TW'; // Traditional Chinese
+		} else if (userLang.includes('zh')) {
+			language = 'zh'; // Simplified Chinese
+		} else {
+			language = 'en'; // Default to English
+		}
+
+		// Update the content based on selected language
+		const elements = document.querySelectorAll('[data-lang]');
+		elements.forEach(function (element) {
+			const langKey = element.getAttribute('data-lang');
+			if (languageContent[language] && languageContent[language][langKey]) {
+				element.innerHTML = languageContent[language][langKey];
+			}
+		});
+		
+		const selectedLang = languageContent[userLang] || languageContent['en'];
+		for (let key in selectedLang) {
+			if (selectedLang.hasOwnProperty(key)) {
+				const element = document.getElementById(key);
+				if (element) {
+					element.innerText = selectedLang[key];
+				}
+			}
+		}
+		
+		
+		// Handle theme toggle
+		const themeToggle = document.getElementById('themeToggle');
+		themeToggle.addEventListener('click', function() {
+			document.body.classList.toggle('dark-mode');
+		});
+	});
+
+
+     
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // 检查是否是移动设备
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            // 移动端：跟随系统主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // 初始设置
+            if (prefersDark.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            
+            // 监听系统主题变化
+            prefersDark.addEventListener('change', (e) => {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            });
+        } else {
+            // 桌面端：保持原有的手动切换逻辑
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeToggle.textContent = savedTheme === 'dark' ? '🌞' : '🌓';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '🌞' : '🌓';
+            });
+
+            // 检查系统主题偏好（仅在首次访问时）
+            if (!savedTheme) {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌞';
+                }
+            }
+        }
+    </script>	
+	
+	
+	
+	
+	
+	
+</body>
+</html>
