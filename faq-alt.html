@@ -112,12 +112,15 @@
 
         .section {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 20px;
             padding: 1.25rem; /* 缩小内边距 */
             margin-bottom: 1.5rem; /* 缩小步骤间距 */
 			margin-top: 2rem; /* Add extra margin here */
 			backdrop-filter: blur(10px);
-            box-shadow: 1px solid rgba(0, 123, 255, 0.1);
+            box-shadow: 
+                0 10px 30px rgba(0, 123, 255, 0.05),
+                0 1px 8px rgba(0, 123, 255, 0.02),
+                0 0 0 1px rgba(0, 123, 255, 0.03);
             transition: transform 0.3s ease;
 			animation: fadeIn 1s ease 0.9s both;
         }
